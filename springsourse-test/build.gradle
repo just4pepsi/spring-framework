@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.atguigu.spring'
+version = '6.2.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    //引入spring核心容器
+    implementation(project(":spring-context"))
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
+
+}
+
+test {
+    useJUnitPlatform()
+}
