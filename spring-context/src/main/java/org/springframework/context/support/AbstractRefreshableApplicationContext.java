@@ -16,14 +16,14 @@
 
 package org.springframework.context.support;
 
-import java.io.IOException;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextException;
 import org.springframework.lang.Nullable;
+
+import java.io.IOException;
 
 /**
  * Base class for {@link org.springframework.context.ApplicationContext}
@@ -124,7 +124,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 			closeBeanFactory();
 		}
 		try {
-			DefaultListableBeanFactory beanFactory = createBeanFactory();
+			DefaultListableBeanFactory beanFactory = createBeanFactory();	//创建保存所以Bean定义的档案馆
 			beanFactory.setSerializationId(getId());
 			beanFactory.setApplicationStartup(getApplicationStartup());
 			customizeBeanFactory(beanFactory);

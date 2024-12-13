@@ -10,9 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class MailTest {
 	public static void main(String[] args) {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
-
 		Person bean = context.getBean(Person.class);
-
 		System.out.println(bean);
 	}
 }
