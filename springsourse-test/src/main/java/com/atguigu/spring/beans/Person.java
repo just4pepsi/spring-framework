@@ -1,17 +1,41 @@
 package com.atguigu.spring.beans;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Lookup;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 /**
+ * Aware接口：帮我们装配Spring底层的组件
  * @author wule
  * @create 2024-10-15 22:00
  */
 @Component
-public class Person {
+public class Person implements ApplicationContextAware, MessageSourceAware {
 	private String name;
 	// @Autowired  //依赖的组件是多实例就不能Autowired
 	private Cat cat;
+
+	//	@Autowired
+	private ApplicationContext applicationContext;
+	private MessageSource messageSource;
+
+	public Person() {
+		System.out.println("创建Person");
+	}
+
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		// 利用回调机制，把ioc容器传入
+		this.applicationContext = applicationContext;
+	}
 
 	public String getName() {
 		return name;
@@ -35,5 +59,14 @@ public class Person {
 		return "Person{" +
 				"name='" + name + '\'' +
 				'}';
+	}
+
+	public MessageSource getMessageSource() {
+		return messageSource;
+	}
+
+	@Override
+	public void setMessageSource(MessageSource messageSource) {
+		this.messageSource = messageSource;
 	}
 }

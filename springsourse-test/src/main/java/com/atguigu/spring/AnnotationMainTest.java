@@ -1,8 +1,8 @@
 package com.atguigu.spring;
 
-import com.atguigu.spring.beans.Cat;
 import com.atguigu.spring.beans.Person;
 import com.atguigu.spring.config.MailConfig;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -17,10 +17,14 @@ public class AnnotationMainTest {
 //		Person bean = context.getBean(Person.class);
 //		System.out.println(bean);
 
-		Person p1 = context.getBean(Person.class);
-		Cat cat1 = p1.getCat();
-		Person p2 = context.getBean(Person.class);
-		Cat cat2 = p2.getCat();
-		System.out.println(cat1 == cat2); //true
+//		Person p1 = context.getBean(Person.class);
+//		Cat cat1 = p1.getCat();
+//		Person p2 = context.getBean(Person.class);
+//		Cat cat2 = p2.getCat();
+//		System.out.println(cat1 == cat2); //true
+
+		Person p = context.getBean(Person.class);
+		ApplicationContext applicationContext = p.getApplicationContext();
+		System.out.println(applicationContext == context);
 	}
 }
