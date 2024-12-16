@@ -20,14 +20,16 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ResourceUtils;
 
 /**
+ * 用于加载资源（例如类路径或文件系统资源）的策略接口。
+ * 一个 ApplicationContext 需要提供此功能以及扩展的 ResourcePatternResolver 支持。
  * Strategy interface (策略接口) for loading resources (for example, class path or file system
  * resources). An {@link org.springframework.context.ApplicationContext}
  * is required to provide this functionality plus extended
  * {@link org.springframework.core.io.support.ResourcePatternResolver} support.
- *
+ *	DefaultResourceLoader 是一个独立的实现，可在 ApplicationContext 外部使用，并被 ResourceEditor 使用。
  * <p>{@link DefaultResourceLoader} is a standalone implementation that is
  * usable outside an ApplicationContext and is also used by {@link ResourceEditor}.
- *
+ *	当在 ApplicationContext 中运行时，类型为 Resource 和 Resource[] 的 Bean 属性可以从字符串中填充，使用特定上下文的资源加载策略。
  * <p>Bean properties of type {@code Resource} and {@code Resource[]} can be populated
  * from Strings when running in an ApplicationContext, using the particular
  * context's resource loading strategy.
@@ -42,10 +44,18 @@ import org.springframework.util.ResourceUtils;
 public interface ResourceLoader {
 
 	/** Pseudo URL prefix for loading from the class path: "classpath:". */
+	/** 用于从类路径加载的伪 URL 前缀："classpath:"。 */
 	String CLASSPATH_URL_PREFIX = ResourceUtils.CLASSPATH_URL_PREFIX;
 
 
 	/**
+	 * 返回指定资源位置的 Resource 句柄。
+	 * 该句柄应始终是一个可重用的资源描述符，允许进行多次 Resource#getInputStream() 调用。
+	 * 必须支持完全限定的 URLs，例如 "file:C:/test.dat"。
+	 * 必须支持类路径伪-URLs，例如 "classpath:test.dat"。
+	 * 应支持相对文件路径，例如 "WEB-INF/test.dat"。
+	 * （这将是实现特定的，通常由 ApplicationContext 实现提供。）
+	 * 请注意，Resource 句柄并不意味着资源存在；我们需要调用 Resource#exists 来检查其存在性。
 	 * Return a {@code Resource} handle for the specified resource location.
 	 * <p>The handle should always be a reusable resource descriptor,
 	 * allowing for multiple {@link Resource#getInputStream()} calls.
@@ -67,6 +77,8 @@ public interface ResourceLoader {
 	Resource getResource(String location);
 
 	/**
+	 * 公开此 ResourceLoader 使用的 ClassLoader。
+	 * 需要直接访问 ClassLoader 的客户端可以与 ResourceLoader 以统一的方式这样做，而不是依赖线程上下文 ClassLoader。
 	 * Expose the {@link ClassLoader} used by this {@code ResourceLoader}.
 	 * <p>Clients which need to access the {@code ClassLoader} directly can do so
 	 * in a uniform manner with the {@code ResourceLoader}, rather than relying
