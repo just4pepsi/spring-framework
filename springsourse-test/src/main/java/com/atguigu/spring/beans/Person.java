@@ -9,7 +9,9 @@ import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 /**
- * Aware接口：帮我们装配Spring底层的组件
+ * Aware接口：帮我们装配Spring底层的一些组件
+ * 1、Bean的功能增强全部都是有 BeanPostProcessor+InitializingBean（合起来完成的）
+ * 2、骚操作就是 BeanPostProcessor+InitializingBean
  * @author wule
  * @create 2024-10-15 22:00
  */

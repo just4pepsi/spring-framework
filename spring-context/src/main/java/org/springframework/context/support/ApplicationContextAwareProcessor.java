@@ -82,7 +82,7 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 	@Nullable
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 		if (bean instanceof Aware) {
-			invokeAwareInterfaces(bean);
+			invokeAwareInterfaces(bean);	//执行aware接口规定的方法
 		}
 		return bean;
 	}
