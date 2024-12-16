@@ -37,6 +37,10 @@ import org.springframework.lang.Nullable;
  * singleton in the scope of the factory). Which type of instance will be returned
  * depends on the bean factory configuration: the API is the same. Since Spring
  * 2.0, further scopes are available depending on the concrete application
+ * 此接口由包含多个 bean 定义的对象实现，每个 bean 定义都由字符串名称唯一标识。根据 bean 定义，
+ * 工厂将返回包含对象的独立实例（原型设计模式）或单个共享实例
+ * Singleton 设计模式的一种更好的替代，其中实例是工厂范围内的单例）。将返回哪种类型的实例取决于
+ * bean 工厂的配置：API 是相同的。从 Spring 2.0 开始，根据具体的应用上下文，还可以使用进一步的范围
  * context (for example, "request" and "session" scopes in a web environment).
  *
  * <p>The point of this approach is that the BeanFactory is a central registry
@@ -67,6 +71,7 @@ import org.springframework.lang.Nullable;
  *
  * <p>Bean factory implementations should support the standard bean lifecycle interfaces
  * as far as possible. The full set of initialization methods and their standard order is:
+ * Bean 工厂实现应尽可能支持标准的 bean 生命周期接口。初始化方法及其标准顺序的完整集合是：
  * <ol>
  * <li>BeanNameAware's {@code setBeanName}
  * <li>BeanClassLoaderAware's {@code setBeanClassLoader}
@@ -90,6 +95,7 @@ import org.springframework.lang.Nullable;
  * </ol>
  *
  * <p>On shutdown of a bean factory, the following lifecycle methods apply:
+ * 在关闭 bean 工厂时，以下生命周期方法适用：
  * <ol>
  * <li>{@code postProcessBeforeDestruction} methods of DestructionAwareBeanPostProcessors
  * <li>DisposableBean's {@code destroy}
@@ -130,6 +136,7 @@ public interface BeanFactory {
 
 
 	/**
+	 * 返回指定 bean 的实例，该实例可以是共享的或独立的。
 	 * Return an instance, which may be shared or independent, of the specified bean.
 	 * <p>This method allows a Spring BeanFactory to be used as a replacement for the
 	 * Singleton or Prototype design pattern. Callers may retain references to
@@ -362,6 +369,7 @@ public interface BeanFactory {
 	Class<?> getType(String name) throws NoSuchBeanDefinitionException;
 
 	/**
+	 * 确定具有给定名称的 bean 的类型。
 	 * Determine the type of the bean with the given name. More specifically,
 	 * determine the type of object that {@link #getBean} would return for the given name.
 	 * <p>For a {@link FactoryBean}, return the type of object that the FactoryBean creates,
@@ -383,6 +391,7 @@ public interface BeanFactory {
 	Class<?> getType(String name, boolean allowFactoryBeanInit) throws NoSuchBeanDefinitionException;
 
 	/**
+	 * 返回给定 bean 名称的别名，如果有的话。
 	 * Return the aliases for the given bean name, if any.
 	 * <p>All of those aliases point to the same bean when used in a {@link #getBean} call.
 	 * <p>If the given name is an alias, the corresponding original bean name
