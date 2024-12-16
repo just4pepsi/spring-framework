@@ -21,7 +21,7 @@ import java.io.InputStream;
 
 /**
  * Simple interface for objects that are sources for an {@link InputStream}.
- *
+ * 表示可以提供输入流的资源或对象的接口。
  * <p>This is the base interface for Spring's more extensive {@link Resource} interface.
  *
  * <p>For single-use streams, {@link InputStreamResource} can be used for any
@@ -43,11 +43,15 @@ public interface InputStreamSource {
 
 	/**
 	 * Return an {@link InputStream} for the content of an underlying resource.
+	 * 返回基础资源内容的 InputStream。
 	 * <p>It is usually expected that every such call creates a <i>fresh</i> stream.
+	 *  期望每次调用都会创建一个新的流。
 	 * <p>This requirement is particularly important when you consider an API such
 	 * as JavaMail, which needs to be able to read the stream multiple times when
 	 * creating mail attachments. For such a use case, it is <i>required</i>
 	 * that each {@code getInputStream()} call returns a fresh stream.
+	 * 当我们考虑到像 JavaMail 这样的API时，这个要求尤为重要，因为在创建邮件附件时，JavaMail需要能够多次读取流。
+	 * 对于这样的用例，要求每个 getInputStream() 调用都返回一个新的流。
 	 * @return the input stream for the underlying resource (must not be {@code null})
 	 * @throws java.io.FileNotFoundException if the underlying resource does not exist
 	 * @throws IOException if the content stream could not be opened
