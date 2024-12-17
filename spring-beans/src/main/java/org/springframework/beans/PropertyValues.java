@@ -16,14 +16,14 @@
 
 package org.springframework.beans;
 
+import org.springframework.lang.Nullable;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
-import org.springframework.lang.Nullable;
 
 /**
  * Holder containing one or more {@link PropertyValue} objects,
@@ -37,6 +37,7 @@ import org.springframework.lang.Nullable;
 public interface PropertyValues extends Iterable<PropertyValue> {
 
 	/**
+	 * PropertyValues指的是一个属性的键值对。属性名和属性值
 	 * Return an {@link Iterator} over the property values.
 	 * @since 5.1
 	 */

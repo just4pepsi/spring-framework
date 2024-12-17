@@ -106,7 +106,7 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 		if (bean instanceof ApplicationStartupAware applicationStartupAware) {
 			applicationStartupAware.setApplicationStartup(this.applicationContext.getApplicationStartup());
 		}
-		if (bean instanceof ApplicationContextAware applicationContextAware) {
+		if (bean instanceof ApplicationContextAware applicationContextAware) {	//利用多态调用子类方法
 			applicationContextAware.setApplicationContext(this.applicationContext);
 		}
 	}

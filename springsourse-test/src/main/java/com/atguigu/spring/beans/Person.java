@@ -1,7 +1,7 @@
 package com.atguigu.spring.beans;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Lookup;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
@@ -51,11 +51,11 @@ public class Person implements ApplicationContextAware, MessageSourceAware {
 		this.name = name;
 	}
 
-	@Lookup  //去容器中找。@Bean的这种方式注册的Person @Lookup不生效
+//	@Lookup  //去容器中找。@Bean的这种方式注册的Person @Lookup不生效
 	public Cat getCat() {
 		return cat;
 	}
-
+	@Autowired
 	public void setCat(Cat cat) {
 		this.cat = cat;
 	}

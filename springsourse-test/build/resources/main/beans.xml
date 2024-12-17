@@ -8,4 +8,5 @@
 		<property name="name" value="zhangsan"/>
 	</bean>
 
+	<bean class="com.atguigu.spring.beans.HelloFactory" id="hello" />
 </beans>
