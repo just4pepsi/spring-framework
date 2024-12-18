@@ -6,7 +6,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
-import org.springframework.stereotype.Component;
 
 /**
  * Aware接口：帮我们装配Spring底层的一些组件
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Component;
  * @author wule
  * @create 2024-10-15 22:00
  */
-@Component
+//@Component
 public class Person implements ApplicationContextAware, MessageSourceAware {
 	private String name;
 	// @Autowired  //依赖的组件是多实例就不能Autowired
