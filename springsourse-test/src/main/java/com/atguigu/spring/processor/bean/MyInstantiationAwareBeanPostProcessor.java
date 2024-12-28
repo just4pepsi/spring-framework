@@ -5,8 +5,6 @@ import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.stereotype.Component;
 
-import java.beans.PropertyDescriptor;
-
 @Component
 public class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
 	public MyInstantiationAwareBeanPostProcessor(){
