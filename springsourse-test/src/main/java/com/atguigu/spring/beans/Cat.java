@@ -1,5 +1,6 @@
 package com.atguigu.spring.beans;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
  */
 //@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Component
-public class Cat {
+public class Cat implements InitializingBean {
 	private String name;
 
 	public String getName() {
@@ -24,5 +25,10 @@ public class Cat {
 
 	public Cat() {
 		System.out.println("cat constructor...");
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		System.out.println("cat afterPropertiesSet...");
 	}
 }
