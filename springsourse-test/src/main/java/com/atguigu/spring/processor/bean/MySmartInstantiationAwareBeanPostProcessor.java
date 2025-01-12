@@ -17,9 +17,7 @@ public class MySmartInstantiationAwareBeanPostProcessor implements SmartInstanti
 		return null;
 	}
     //返回我们要使用的构造器候选列表
-	public Constructor<?>[] determineCandidateConstructors(Class<?> beanClass, String beanName)
-
-			throws BeansException {
+	public Constructor<?>[] determineCandidateConstructors(Class<?> beanClass, String beanName) throws BeansException {
 		System.out.println("MySmartInstantiationAwareBeanPostProcessor...determineCandidateConstructors=>"+beanClass+"--"+beanName);
 		//返回一个我们指定的构造器
 		return null;
