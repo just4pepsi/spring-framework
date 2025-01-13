@@ -1,8 +1,7 @@
 package com.atguigu.spring;
 
-import com.atguigu.spring.beans.Person;
+import com.atguigu.spring.aop.HelloService;
 import com.atguigu.spring.config.MailConfig;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -14,6 +13,13 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class AnnotationMainTest {
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MailConfig.class);
+
+		//循环引用,原理测试
+		//AOP,原理测试
+		HelloService helloService = context.getBean(HelloService.class);
+		//代理对象来调用方法
+		helloService.sayHello("zhangsan");
+		// 测试单例
 //		Person bean = context.getBean(Person.class);
 //		System.out.println(bean);
 
@@ -23,8 +29,8 @@ public class AnnotationMainTest {
 //		Cat cat2 = p2.getCat();
 //		System.out.println(cat1 == cat2); //true
 
-		Person p = context.getBean(Person.class);
-		ApplicationContext applicationContext = p.getApplicationContext();
-		System.out.println(applicationContext == context);
+//		Person p = context.getBean(Person.class);
+//		ApplicationContext applicationContext = p.getApplicationContext();
+//		System.out.println(applicationContext == context);
 	}
 }

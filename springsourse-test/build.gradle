@@ -15,6 +15,7 @@ dependencies {
 
     //引入spring核心容器
     implementation(project(":spring-context"))
+    implementation(project(":spring-aspects"))
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
 
 }
