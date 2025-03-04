@@ -988,7 +988,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		this.preInstantiationThread.set(PreInstantiation.MAIN);
 		try {
 			for (String beanName : beanNames) {
-				RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
+				RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);	//开始解析文件的时候每一个bean的标识
 				if (!mbd.isAbstract() && mbd.isSingleton()) {
 					CompletableFuture<?> future = preInstantiateSingleton(beanName, mbd);
 					if (future != null) {
@@ -1075,8 +1075,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	}
 
 	private void instantiateSingleton(String beanName) {
-		if (isFactoryBean(beanName)) {
-			Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
+		if (isFactoryBean(beanName)) {	//如果是FactoryBean者执行下面逻辑
+			Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);	//工厂 bean 前面加 &
 			if (bean instanceof SmartFactoryBean<?> smartFactoryBean && smartFactoryBean.isEagerInit()) {
 				getBean(beanName);
 			}

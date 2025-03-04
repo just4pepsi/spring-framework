@@ -14,7 +14,7 @@ import org.springframework.beans.factory.FactoryBean;
 public class HelloFactory implements FactoryBean<Hello> {
 	@Override
 	public Hello getObject() throws Exception {
-		return new Hello();
+		return new Hello();	//这是最终获取到的对象
 	}
 
 	@Override
