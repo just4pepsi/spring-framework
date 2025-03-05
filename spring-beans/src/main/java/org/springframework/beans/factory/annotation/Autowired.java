@@ -23,6 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 通过Spring的依赖注入机制标记构造函数、字段、setter方法或配置方法。
  * Marks a constructor, field, setter method, or config method as to be autowired by
  * Spring's dependency injection facilities. This is an alternative to the JSR-330
  * {@link jakarta.inject.Inject} annotation, adding required-vs-optional semantics.
@@ -103,6 +104,7 @@ import java.lang.annotation.Target;
 public @interface Autowired {
 
 	/**
+	 * 声明注解的依赖是否是必需的。
 	 * Declares whether the annotated dependency is required.
 	 * <p>Defaults to {@code true}.
 	 */

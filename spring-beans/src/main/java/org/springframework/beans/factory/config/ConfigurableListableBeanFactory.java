@@ -16,12 +16,12 @@
 
 package org.springframework.beans.factory.config;
 
-import java.util.Iterator;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.lang.Nullable;
+
+import java.util.Iterator;
 
 /**
  * Configuration interface to be implemented by most listable bean factories.
@@ -153,6 +153,7 @@ public interface ConfigurableListableBeanFactory
 	boolean isConfigurationFrozen();
 
 	/**
+	 * 确保实例化所有非懒加载单例
 	 * Ensure that all non-lazy-init singletons are instantiated, also considering
 	 * {@link org.springframework.beans.factory.FactoryBean FactoryBeans}.
 	 * Typically invoked at the end of factory setup, if desired.
