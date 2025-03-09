@@ -1,6 +1,6 @@
 package com.atguigu.spring;
 
-import com.atguigu.spring.beans.Hello;
+import com.atguigu.spring.beans.Cat;
 import com.atguigu.spring.config.MailConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class AnnotationMainTest {
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MailConfig.class);
-		Hello bean = context.getBean(Hello.class);
+		Cat bean = context.getBean(Cat.class);
 		System.out.println(bean);
 
 		//循环引用,原理测试

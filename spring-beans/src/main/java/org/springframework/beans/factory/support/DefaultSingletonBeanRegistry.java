@@ -83,7 +83,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 
 	private final Lock singletonLock = new ReentrantLock();
 
-	/** Names of beans that are currently in creation. */
+	/**	正在创建的组件名字池 Names of beans that are currently in creation. */
 	private final Set<String> singletonsCurrentlyInCreation = ConcurrentHashMap.newKeySet(16);
 
 	/** Names of beans currently excluded from in creation checks. */
@@ -180,9 +180,9 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 */
 	@Nullable
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
-		// Quick check for existing instance without full singleton lock.
+		// 先检查单例缓存池是否有当前对象 Quick check for existing instance without full singleton lock.
 		Object singletonObject = this.singletonObjects.get(beanName);
-		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
+		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {	//如果当前bean在创建中，而且缓存中没有着继续
 			singletonObject = this.earlySingletonObjects.get(beanName);
 			if (singletonObject == null && allowEarlyReference) {
 				if (!this.singletonLock.tryLock()) {
@@ -226,7 +226,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * @return the registered singleton object
 	 */
 	@SuppressWarnings("NullAway")
-	public Object getSingleton(String beanName, ObjectFactory<?> singletonFactory) {
+	public Object getSingleton(String beanName, ObjectFactory<?> singletonFactory) {	//检查单例池中是否有该对象
 		Assert.notNull(beanName, "Bean name must not be null");
 
 		Boolean lockFlag = isCurrentThreadAllowedToHoldSingletonLock();
@@ -234,7 +234,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		boolean locked = (acquireLock && this.singletonLock.tryLock());
 		try {
 			Object singletonObject = this.singletonObjects.get(beanName);
-			if (singletonObject == null) {
+			if (singletonObject == null) {	//如果单例池中没有该对象，则创建该对象
 				if (acquireLock && !locked) {
 					if (Boolean.TRUE.equals(lockFlag)) {
 						// Another thread is busy in a singleton factory callback, potentially blocked.
@@ -268,14 +268,14 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 				if (logger.isDebugEnabled()) {
 					logger.debug("Creating shared instance of singleton bean '" + beanName + "'");
 				}
-				beforeSingletonCreation(beanName);
+				beforeSingletonCreation(beanName);	//单实例创建之前
 				boolean newSingleton = false;
 				boolean recordSuppressedExceptions = (locked && this.suppressedExceptions == null);
 				if (recordSuppressedExceptions) {
 					this.suppressedExceptions = new LinkedHashSet<>();
 				}
 				try {
-					singletonObject = singletonFactory.getObject();
+					singletonObject = singletonFactory.getObject();	//调用lambda表达式创建单例对象
 					newSingleton = true;
 				}
 				catch (IllegalStateException ex) {
@@ -390,7 +390,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		return isSingletonCurrentlyInCreation(beanName);
 	}
 
-	/**
+	/** 查看当前bean是否正在创建
 	 * Return whether the specified singleton bean is currently in creation
 	 * (within the entire factory).
 	 * @param beanName the name of the bean
