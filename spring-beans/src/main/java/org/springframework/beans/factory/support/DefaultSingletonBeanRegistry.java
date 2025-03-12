@@ -181,9 +181,9 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	@Nullable
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 		// 先检查单例缓存池是否有当前对象 Quick check for existing instance without full singleton lock.
-		Object singletonObject = this.singletonObjects.get(beanName);
+		Object singletonObject = this.singletonObjects.get(beanName);	//一级缓存
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {	//如果当前bean在创建中，而且缓存中没有着继续
-			singletonObject = this.earlySingletonObjects.get(beanName);
+			singletonObject = this.earlySingletonObjects.get(beanName);	//二级缓存
 			if (singletonObject == null && allowEarlyReference) {
 				if (!this.singletonLock.tryLock()) {
 					// Avoid early singleton inference outside of original creation thread.
@@ -195,7 +195,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					if (singletonObject == null) {
 						singletonObject = this.earlySingletonObjects.get(beanName);
 						if (singletonObject == null) {
-							ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
+							ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);	//三级缓存
 							if (singletonFactory != null) {
 								singletonObject = singletonFactory.getObject();
 								// Singleton could have been added or removed in the meantime.
@@ -298,10 +298,10 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					if (recordSuppressedExceptions) {
 						this.suppressedExceptions = null;
 					}
-					afterSingletonCreation(beanName);
+					afterSingletonCreation(beanName);	//对象创建完成之后调用-singletonsCurrentlyInCreation.remove
 				}
 				if (newSingleton) {
-					addSingleton(beanName, singletonObject);
+					addSingleton(beanName, singletonObject);	//添加单例对象到缓存中
 				}
 			}
 			return singletonObject;

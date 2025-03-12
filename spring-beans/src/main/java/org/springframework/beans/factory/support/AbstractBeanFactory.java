@@ -303,7 +303,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 							throw ex;
 						}
 					});
-					beanInstance = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);
+					beanInstance = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);  //看当前bean是否FactoryBean
 				}
 				// 创建多实例bean
 				else if (mbd.isPrototype()) {
@@ -358,7 +358,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 			}
 		}
-
+		// 转Object为bean的T类型
 		return adaptBeanInstance(name, beanInstance, requiredType);
 	}
 
