@@ -16,9 +16,6 @@
 
 package org.springframework.context.annotation;
 
-import java.lang.annotation.Annotation;
-import java.util.function.Supplier;
-
 import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionCustomizer;
@@ -32,6 +29,9 @@ import org.springframework.core.env.EnvironmentCapable;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+
+import java.lang.annotation.Annotation;
+import java.util.function.Supplier;
 
 /**
  * Convenient adapter for programmatic registration of bean classes.
@@ -260,7 +260,7 @@ public class AnnotatedBeanDefinitionReader {
 		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(abd);
 		abd.setScope(scopeMetadata.getScopeName());
 		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));
-
+		//完善主配置类的BeanDefinition 解析@Lazy、@Primary、@Fallback、@DependsOn、@Role、@Description注解
 		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
 		if (qualifiers != null) {
 			for (Class<? extends Annotation> qualifier : qualifiers) {

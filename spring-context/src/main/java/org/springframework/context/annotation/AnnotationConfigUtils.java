@@ -16,10 +16,6 @@
 
 package org.springframework.context.annotation;
 
-import java.lang.annotation.Annotation;
-import java.util.Set;
-import java.util.function.Predicate;
-
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -38,6 +34,10 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
+
+import java.lang.annotation.Annotation;
+import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * Utility class that allows for convenient registration of common
@@ -118,7 +118,7 @@ public abstract class AnnotationConfigUtils {
 			ClassUtils.isPresent("jakarta.annotation.PostConstruct", classLoader);
 
 	private static final boolean jsr250Present =
-			ClassUtils.isPresent("javax.annotation.PostConstruct", classLoader);
+			ClassUtils.isPresent("javax.annotation.PostConstruct", classLoader);	//判断有没有引入相关jar包
 
 	private static final boolean jpaPresent =
 			ClassUtils.isPresent("jakarta.persistence.EntityManagerFactory", classLoader) &&
@@ -155,19 +155,19 @@ public abstract class AnnotationConfigUtils {
 		}
 
 		Set<BeanDefinitionHolder> beanDefs = CollectionUtils.newLinkedHashSet(6);
-
+		//注册底层的配置文件处理器
 		if (!registry.containsBeanDefinition(CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition(ConfigurationClassPostProcessor.class);
 			def.setSource(source);
 			beanDefs.add(registerPostProcessor(registry, def, CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
-
+		//注册底层的自动装配处理器
 		if (!registry.containsBeanDefinition(AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition(AutowiredAnnotationBeanPostProcessor.class);
 			def.setSource(source);
 			beanDefs.add(registerPostProcessor(registry, def, AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
-
+		//注册底层支持JSR250规范的处理器，支持@Resource、@PostConstruct、@PreDestroy相关注解
 		// Check for Jakarta Annotations support, and if present add the CommonAnnotationBeanPostProcessor.
 		if ((jakartaAnnotationsPresent || jsr250Present) &&
 				!registry.containsBeanDefinition(COMMON_ANNOTATION_PROCESSOR_BEAN_NAME)) {
@@ -175,7 +175,7 @@ public abstract class AnnotationConfigUtils {
 			def.setSource(source);
 			beanDefs.add(registerPostProcessor(registry, def, COMMON_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
-
+		// jpa的后置处理器
 		// Check for JPA support, and if present add the PersistenceAnnotationBeanPostProcessor.
 		if (jpaPresent && !registry.containsBeanDefinition(PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition();
@@ -190,13 +190,13 @@ public abstract class AnnotationConfigUtils {
 			def.setSource(source);
 			beanDefs.add(registerPostProcessor(registry, def, PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
-
+		// 注册底层的事件功能（事件方法）的后置处理器
 		if (!registry.containsBeanDefinition(EVENT_LISTENER_PROCESSOR_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition(EventListenerMethodProcessor.class);
 			def.setSource(source);
 			beanDefs.add(registerPostProcessor(registry, def, EVENT_LISTENER_PROCESSOR_BEAN_NAME));
 		}
-
+		// 注册底层的事件工厂
 		if (!registry.containsBeanDefinition(EVENT_LISTENER_FACTORY_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition(DefaultEventListenerFactory.class);
 			def.setSource(source);
