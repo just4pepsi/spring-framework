@@ -558,11 +558,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 			StartupStep contextRefresh = this.applicationStartup.start("spring.context.refresh");
 
-			// Prepare this context for refreshing.
+			// 准备上下文环境 Prepare this context for refreshing.
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
-			// BeanFactory第一次创建的时候
+			// 工厂创建：BeanFactory第一次创建的时候，有xml解析逻辑
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
@@ -644,19 +644,19 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 		}
 
-		// Initialize any placeholder property sources in the context environment.
+		//	其他子容器自行实现 （例如WebApplicationContext） Initialize any placeholder property sources in the context environment.
 		initPropertySources();
 
-		// Validate that all properties marked as required are resolvable:
+		//	准备环境变量信息 Validate that all properties marked as required are resolvable:
 		// see ConfigurablePropertyResolver#setRequiredProperties
 		getEnvironment().validateRequiredProperties();
 
-		// Store pre-refresh ApplicationListeners...
+		//	存储子容器早期运行的一些监听器 Store pre-refresh ApplicationListeners...
 		if (this.earlyApplicationListeners == null) {
 			this.earlyApplicationListeners = new LinkedHashSet<>(this.applicationListeners);
 		}
 		else {
-			// Reset local application listeners to pre-refresh state.
+			//	早期的一些事件存储到这里 Reset local application listeners to pre-refresh state.
 			this.applicationListeners.clear();
 			this.applicationListeners.addAll(this.earlyApplicationListeners);
 		}
@@ -672,7 +672,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see org.springframework.web.context.support.WebApplicationContextUtils#initServletPropertySources
 	 */
 	protected void initPropertySources() {
-		// For subclasses: do nothing by default.
+		// For subclasses: do nothing by default.	//自行在此次加载一些初始化的信息【WebApplicationContextUtils.initServletPropertySources】 web-ioc容器启动的时候一般在此加载当前应用的上下文信息（ApplicationContext）
 	}
 
 	/**
