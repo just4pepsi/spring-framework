@@ -168,7 +168,7 @@ class ConfigurationClassParser {
 
 		this.deferredImportSelectorHandler.process();
 	}
-
+	// 解析配置类
 	private void parse(AnnotatedBeanDefinition beanDef, String beanName) {
 		processConfigurationClass(
 				new ConfigurationClass(beanDef.getMetadata(), beanName, (beanDef instanceof ScannedGenericBeanDefinition)),
@@ -252,7 +252,7 @@ class ConfigurationClassParser {
 			throw new BeanDefinitionStoreException(
 					"I/O failure while processing configuration class [" + sourceClass + "]", ex);
 		}
-
+		// 只要这个配置类解析过，就放到已解析的集合中，防止重复解析
 		this.configurationClasses.put(configClass, configClass);
 	}
 
@@ -307,7 +307,7 @@ class ConfigurationClassParser {
 								.formatted(configClass.getMetadata().getClassName(), registerBeanConditions));
 			}
 			for (AnnotationAttributes componentScan : componentScans) {
-				// The config class is annotated with @ComponentScan -> perform the scan immediately
+				// 使用Scanner把ComponentScan指定的包下的所有组件都扫描进来。The config class is annotated with @ComponentScan -> perform the scan immediately
 				Set<BeanDefinitionHolder> scannedBeanDefinitions =
 						this.componentScanParser.parse(componentScan, sourceClass.getMetadata().getClassName());
 				// Check the set of scanned definitions for any further config classes and parse recursively if needed
@@ -323,10 +323,10 @@ class ConfigurationClassParser {
 			}
 		}
 
-		// Process any @Import annotations
+		// 处理 @Import 注解的地方【AOP就是利用这个地方导入一个后置处理器的】 Process any @Import annotations
 		processImports(configClass, sourceClass, getImports(sourceClass), filter, true);
 
-		// Process any @ImportResource annotations
+		// 处理 @ImportResource 注解 Process any @ImportResource annotations
 		AnnotationAttributes importResource =
 				AnnotationConfigUtils.attributesFor(sourceClass.getMetadata(), ImportResource.class);
 		if (importResource != null) {
@@ -347,7 +347,7 @@ class ConfigurationClassParser {
 			configClass.addBeanMethod(new BeanMethod(methodMetadata, configClass));
 		}
 
-		// Process default methods on interfaces
+		// 处理接口 Process default methods on interfaces
 		processInterfaces(configClass, sourceClass);
 
 		// Process superclass, if any

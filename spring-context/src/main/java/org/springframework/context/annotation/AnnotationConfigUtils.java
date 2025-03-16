@@ -230,7 +230,7 @@ public abstract class AnnotationConfigUtils {
 	public static void processCommonDefinitionAnnotations(AnnotatedBeanDefinition abd) {
 		processCommonDefinitionAnnotations(abd, abd.getMetadata());
 	}
-
+	//解析所有bean定义信息需要感知的注解：@Lazy、@Primary、@DependsOn、@Role、@Description
 	static void processCommonDefinitionAnnotations(AnnotatedBeanDefinition abd, AnnotatedTypeMetadata metadata) {
 		AnnotationAttributes lazy = attributesFor(metadata, Lazy.class);
 		if (lazy != null) {

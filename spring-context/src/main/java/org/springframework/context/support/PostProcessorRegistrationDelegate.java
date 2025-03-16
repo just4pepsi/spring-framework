@@ -45,7 +45,7 @@ final class PostProcessorRegistrationDelegate {
 	private PostProcessorRegistrationDelegate() {
 	}
 
-
+	// 执行工厂的后置处理器
 	public static void invokeBeanFactoryPostProcessors(
 			ConfigurableListableBeanFactory beanFactory, List<BeanFactoryPostProcessor> beanFactoryPostProcessors) {
 
@@ -329,7 +329,7 @@ final class PostProcessorRegistrationDelegate {
 		for (BeanDefinitionRegistryPostProcessor postProcessor : postProcessors) {
 			StartupStep postProcessBeanDefRegistry = applicationStartup.start("spring.context.beandef-registry.post-process")
 					.tag("postProcessor", postProcessor::toString);
-			postProcessor.postProcessBeanDefinitionRegistry(registry);
+			postProcessor.postProcessBeanDefinitionRegistry(registry);	// 核心，配置类的后置处理器会在次解析配置类
 			postProcessBeanDefRegistry.end();
 		}
 	}
