@@ -981,16 +981,16 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		// While this may not be part of the regular factory bootstrap, it does otherwise work fine.
 		List<String> beanNames = new ArrayList<>(this.beanDefinitionNames);
 
-		// 创建出所有的单实例Bean。Trigger initialization of all non-lazy singleton beans...
+		// Trigger initialization of all non-lazy singleton beans...
 		List<CompletableFuture<?>> futures = new ArrayList<>();
 
 		this.preInstantiationPhase = true;
 		this.preInstantiationThread.set(PreInstantiation.MAIN);
-		try {
+		try { //创建出所有的单实例Bean。
 			for (String beanName : beanNames) {
 				RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);	//开始解析文件的时候每一个bean的标识
 				if (!mbd.isAbstract() && mbd.isSingleton()) {
-					CompletableFuture<?> future = preInstantiateSingleton(beanName, mbd);
+					CompletableFuture<?> future = preInstantiateSingleton(beanName, mbd);	//提前实例化单实例bean
 					if (future != null) {
 						futures.add(future);
 					}
@@ -1061,7 +1061,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	private void instantiateSingletonInBackgroundThread(String beanName) {
 		this.preInstantiationThread.set(PreInstantiation.BACKGROUND);
 		try {
-			instantiateSingleton(beanName);
+			instantiateSingleton(beanName);	//初始化bean
 		}
 		catch (RuntimeException | Error ex) {
 			if (logger.isWarnEnabled()) {
