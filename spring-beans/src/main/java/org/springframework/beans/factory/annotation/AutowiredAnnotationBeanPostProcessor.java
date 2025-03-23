@@ -470,7 +470,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 	public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) {
 		InjectionMetadata metadata = findAutowiringMetadata(beanName, bean.getClass(), pvs);	//找到自动装配的元信息
 		try {
-			metadata.inject(bean, beanName, pvs);
+			metadata.inject(bean, beanName, pvs); 	//依赖注入
 		}
 		catch (BeanCreationException ex) {
 			throw ex;
@@ -812,7 +812,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 				}
 			}
 			else {
-				arguments = resolveMethodArguments(method, bean, beanName);
+				arguments = resolveMethodArguments(method, bean, beanName);	//解决依赖
 			}
 			if (arguments != null) {
 				try {
@@ -851,7 +851,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 				currDesc.setContainingClass(bean.getClass());
 				descriptors[i] = currDesc;
 				try {
-					Object arg = beanFactory.resolveDependency(currDesc, beanName, autowiredBeanNames, typeConverter);
+					Object arg = beanFactory.resolveDependency(currDesc, beanName, autowiredBeanNames, typeConverter);	//解决依赖
 					if (arg == null && !this.required && !methodParam.isOptional()) {
 						arguments = null;
 						break;
