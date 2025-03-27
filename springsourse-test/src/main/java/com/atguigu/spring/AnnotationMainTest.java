@@ -1,6 +1,6 @@
 package com.atguigu.spring;
 
-import com.atguigu.spring.beans.Cat;
+import com.atguigu.spring.aop.HelloService;
 import com.atguigu.spring.config.MailConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -13,8 +13,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class AnnotationMainTest {
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MailConfig.class);
-		Cat bean = context.getBean(Cat.class);
-		System.out.println(bean);
+
+		HelloService bean = context.getBean(HelloService.class);
+		bean.sayHello("zhangsan");
+//		Cat bean = context.getBean(Cat.class);
+//		System.out.println(bean);
 
 		//循环引用,原理测试
 		//AOP,原理测试

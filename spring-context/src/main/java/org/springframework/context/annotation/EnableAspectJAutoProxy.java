@@ -119,7 +119,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(AspectJAutoProxyRegistrar.class)
+@Import(AspectJAutoProxyRegistrar.class)	//给容器装配AspectJAutoProxyRegistrar
 public @interface EnableAspectJAutoProxy {
 
 	/**

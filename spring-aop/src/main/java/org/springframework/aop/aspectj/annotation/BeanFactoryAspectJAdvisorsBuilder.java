@@ -16,22 +16,21 @@
 
 package org.springframework.aop.aspectj.annotation;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.reflect.PerClauseKind;
-
 import org.springframework.aop.Advisor;
 import org.springframework.aop.framework.AopConfigException;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Helper for retrieving @AspectJ beans from a BeanFactory and building
@@ -84,7 +83,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 	 * <p>Creates a Spring Advisor for each AspectJ advice method.
 	 * @return the list of {@link org.springframework.aop.Advisor} beans
 	 * @see #isEligibleBean
-	 */
+	 */		//双检查锁
 	@SuppressWarnings("NullAway")
 	public List<Advisor> buildAspectJAdvisors() {
 		List<String> aspectNames = this.aspectBeanNames;
@@ -95,7 +94,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 				if (aspectNames == null) {
 					List<Advisor> advisors = new ArrayList<>();
 					aspectNames = new ArrayList<>();
-					String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
+					String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(	//获取容器的所以组件
 							this.beanFactory, Object.class, true, false);
 					for (String beanName : beanNames) {
 						if (!isEligibleBean(beanName)) {
@@ -107,14 +106,14 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 						if (beanType == null) {
 							continue;
 						}
-						if (this.advisorFactory.isAspect(beanType)) {
+						if (this.advisorFactory.isAspect(beanType)) {	//判断每一个组件是否是切面，是的话放入缓存advisorsCache
 							try {
 								AspectMetadata amd = new AspectMetadata(beanType, beanName);
 								if (amd.getAjType().getPerClause().getKind() == PerClauseKind.SINGLETON) {
 									MetadataAwareAspectInstanceFactory factory =
 											new BeanFactoryAspectInstanceFactory(this.beanFactory, beanName);
 									List<Advisor> classAdvisors = this.advisorFactory.getAdvisors(factory);
-									if (this.beanFactory.isSingleton(beanName)) {
+									if (this.beanFactory.isSingleton(beanName)) {	//判断是否单例
 										this.advisorsCache.put(beanName, classAdvisors);
 									}
 									else {
@@ -152,14 +151,14 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 			return Collections.emptyList();
 		}
 		List<Advisor> advisors = new ArrayList<>();
-		for (String aspectName : aspectNames) {
+		for (String aspectName : aspectNames) {	//遍历所有切面找到增强器
 			List<Advisor> cachedAdvisors = this.advisorsCache.get(aspectName);
 			if (cachedAdvisors != null) {
 				advisors.addAll(cachedAdvisors);
 			}
 			else {
 				MetadataAwareAspectInstanceFactory factory = this.aspectFactoryCache.get(aspectName);
-				advisors.addAll(this.advisorFactory.getAdvisors(factory));
+				advisors.addAll(this.advisorFactory.getAdvisors(factory));	//获取增强器
 			}
 		}
 		return advisors;

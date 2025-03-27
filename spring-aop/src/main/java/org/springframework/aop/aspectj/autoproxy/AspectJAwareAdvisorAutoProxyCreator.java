@@ -16,14 +16,9 @@
 
 package org.springframework.aop.aspectj.autoproxy;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
 import org.aopalliance.aop.Advice;
 import org.aspectj.util.PartialOrder;
 import org.aspectj.util.PartialOrder.PartialComparable;
-
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AbstractAspectJAdvice;
 import org.springframework.aop.aspectj.AspectJPointcutAdvisor;
@@ -35,6 +30,10 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.core.Ordered;
 import org.springframework.util.ClassUtils;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * {@link org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator}
@@ -99,10 +98,10 @@ public class AspectJAwareAdvisorAutoProxyCreator extends AbstractAdvisorAutoProx
 		AspectJProxyUtils.makeAdvisorChainAspectJCapableIfNecessary(candidateAdvisors);
 	}
 
-	@Override
+	@Override	//判断是否需要跳过当前类
 	protected boolean shouldSkip(Class<?> beanClass, String beanName) {
 		// TODO: Consider optimization by caching the list of the aspect names
-		List<Advisor> candidateAdvisors = findCandidateAdvisors();
+		List<Advisor> candidateAdvisors = findCandidateAdvisors();	//找到候选的增强器
 		for (Advisor advisor : candidateAdvisors) {
 			if (advisor instanceof AspectJPointcutAdvisor pointcutAdvisor &&
 					pointcutAdvisor.getAspectName().equals(beanName)) {
