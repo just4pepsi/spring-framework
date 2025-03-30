@@ -462,7 +462,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		try {
-			// 提前给我们一个机会，去返回组件的代理对象 Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
+			//（即使AOP的BeanPostProcessor都不会珍惜这个机会） 提前给我们一个机会，去返回组件的代理对象 Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
 			if (bean != null) {
 				return bean;
@@ -1388,7 +1388,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			if (pvs == null) {
 				pvs = mbd.getPropertyValues();	//xml中property标签指定的属性值
 			}
-			//使用后置处理器处理属性
+			//使用后置处理器处理属性（属性赋值的BeanPostProcessor在此执行postProcessProperties）
 			for (InstantiationAwareBeanPostProcessor bp : getBeanPostProcessorCache().instantiationAware) {
 				PropertyValues pvsToUse = bp.postProcessProperties(pvs, bw.getWrappedInstance(), beanName);
 				if (pvsToUse == null) {
@@ -1760,7 +1760,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					(mbd != null ? mbd.getResourceDescription() : null), beanName, ex.getMessage(), ex);
 		}
 		if (mbd == null || !mbd.isSynthetic()) {
-			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);	//后置处理器在属性设置完成后增强
+			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);	//后置处理器在属性设置完成后增强-AOP后置处理器在此增强
 		}
 
 		return wrappedBean;

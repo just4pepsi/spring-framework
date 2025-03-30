@@ -16,13 +16,13 @@
 
 package org.springframework.aop.aspectj;
 
-import java.util.List;
-
 import org.springframework.aop.Advisor;
 import org.springframework.aop.PointcutAdvisor;
 import org.springframework.aop.interceptor.ExposeInvocationInterceptor;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 /**
  * Utility methods for working with AspectJ proxies.
@@ -42,7 +42,7 @@ public abstract class AspectJProxyUtils {
 	 * if there are no AspectJ advisors in the advisor chain.
 	 * @param advisors the advisors available
 	 * @return {@code true} if an {@link ExposeInvocationInterceptor} was added to the list,
-	 * otherwise {@code false}
+	 * otherwise {@code false}	创建增强器链
 	 */
 	public static boolean makeAdvisorChainAspectJCapableIfNecessary(List<Advisor> advisors) {
 		// Don't add advisors to an empty list; may indicate that proxying is just not required
@@ -55,7 +55,7 @@ public abstract class AspectJProxyUtils {
 					foundAspectJAdvice = true;
 					break;
 				}
-			}
+			}	//链里面有 ExposeInvocationInterceptor（拦截器）
 			if (foundAspectJAdvice && !advisors.contains(ExposeInvocationInterceptor.ADVISOR)) {
 				advisors.add(0, ExposeInvocationInterceptor.ADVISOR);
 				return true;
