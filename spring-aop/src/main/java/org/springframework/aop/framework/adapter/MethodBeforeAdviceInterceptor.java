@@ -25,7 +25,7 @@ import org.springframework.util.Assert;
 
 import java.io.Serializable;
 
-/**
+/**	前置通知拦截器
  * Interceptor to wrap a {@link MethodBeforeAdvice}.
  * <p>Used internally by the AOP framework; application developers should not
  * need to use this class directly.
@@ -53,7 +53,7 @@ public class MethodBeforeAdviceInterceptor implements MethodInterceptor, BeforeA
 	@Override
 	@Nullable
 	public Object invoke(MethodInvocation mi) throws Throwable {
-		this.advice.before(mi.getMethod(), mi.getArguments(), mi.getThis());
+		this.advice.before(mi.getMethod(), mi.getArguments(), mi.getThis());	//执行前置通知
 		return mi.proceed();
 	}
 
