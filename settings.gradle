@@ -54,4 +54,5 @@ settings.gradle.projectsLoaded {
 	}
 }
 include 'springsourse-test'
+include 'springmvc-source-test'
 
