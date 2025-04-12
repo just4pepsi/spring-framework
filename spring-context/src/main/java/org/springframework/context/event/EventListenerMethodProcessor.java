@@ -16,16 +16,8 @@
 
 package org.springframework.context.event;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.aop.framework.autoproxy.AutoProxyUtils;
 import org.springframework.aop.scope.ScopedObject;
 import org.springframework.aop.scope.ScopedProxyUtils;
@@ -49,6 +41,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Registers {@link EventListener} methods as individual {@link ApplicationListener} instances.
@@ -100,7 +99,7 @@ public class EventListenerMethodProcessor
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
 		this.originalEvaluationContext.setBeanResolver(new BeanFactoryResolver(this.beanFactory));
-
+		// 拿到所有的EventListenerFactory排好序
 		Map<String, EventListenerFactory> beans = beanFactory.getBeansOfType(EventListenerFactory.class, false, false);
 		List<EventListenerFactory> factories = new ArrayList<>(beans.values());
 		AnnotationAwareOrderComparator.sort(factories);
@@ -112,7 +111,7 @@ public class EventListenerMethodProcessor
 	public void afterSingletonsInstantiated() {
 		ConfigurableListableBeanFactory beanFactory = this.beanFactory;
 		Assert.state(beanFactory != null, "No ConfigurableListableBeanFactory set");
-		String[] beanNames = beanFactory.getBeanNamesForType(Object.class);
+		String[] beanNames = beanFactory.getBeanNamesForType(Object.class);		//拿到容器中所有组件
 		for (String beanName : beanNames) {
 			if (!ScopedProxyUtils.isScopedTarget(beanName)) {
 				Class<?> type = null;
@@ -142,7 +141,7 @@ public class EventListenerMethodProcessor
 						}
 					}
 					try {
-						processBean(beanName, type);
+						processBean(beanName, type);	//处理容器中的所有组件-处理标注@EventListener方法
 					}
 					catch (Throwable ex) {
 						throw new BeanInitializationException("Failed to process @EventListener " +
@@ -156,7 +155,7 @@ public class EventListenerMethodProcessor
 	private void processBean(final String beanName, final Class<?> targetType) {
 		if (!this.nonAnnotatedClasses.contains(targetType) &&
 				AnnotationUtils.isCandidateClass(targetType, EventListener.class) &&
-				!isSpringContainerClass(targetType)) {
+				!isSpringContainerClass(targetType)) {		//判断是否是标注了@EventListener的方法
 
 			Map<Method, EventListener> annotatedMethods = null;
 			try {
@@ -183,16 +182,16 @@ public class EventListenerMethodProcessor
 				Assert.state(context != null, "No ApplicationContext set");
 				List<EventListenerFactory> factories = this.eventListenerFactories;
 				Assert.state(factories != null, "EventListenerFactory List not initialized");
-				for (Method method : annotatedMethods.keySet()) {
+				for (Method method : annotatedMethods.keySet()) {	//遍历每一个方法
 					for (EventListenerFactory factory : factories) {
 						if (factory.supportsMethod(method)) {
 							Method methodToUse = AopUtils.selectInvocableMethod(method, context.getType(beanName));
 							ApplicationListener<?> applicationListener =
-									factory.createApplicationListener(beanName, targetType, methodToUse);
+									factory.createApplicationListener(beanName, targetType, methodToUse);	//把当前方法、beanName等封装到适配器中ApplicationListenerMethodAdapter
 							if (applicationListener instanceof ApplicationListenerMethodAdapter alma) {
 								alma.init(context, this.evaluator);
 							}
-							context.addApplicationListener(applicationListener);
+							context.addApplicationListener(applicationListener);	//把这个适配器（是监听器）放到容器中和事件多播器中---事件派发给适配器，适配器利用反射调用自己组件的事件监听方法
 							break;
 						}
 					}

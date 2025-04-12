@@ -1,7 +1,10 @@
 package com.atguigu.spring;
 
-import com.atguigu.spring.aop.HelloService;
+import com.atguigu.spring.circle.A;
 import com.atguigu.spring.config.MailConfig;
+import com.atguigu.spring.listener.AppEventPublisher;
+import com.atguigu.spring.listener.ChangeEvent;
+import com.atguigu.spring.listener.MessageEvent;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -13,9 +16,14 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class AnnotationMainTest {
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MailConfig.class);
-
-		HelloService bean = context.getBean(HelloService.class);
-		bean.sayHello("zhangsan");
+		//测试事件
+		AppEventPublisher eventPublisher = context.getBean(AppEventPublisher.class);
+		eventPublisher.publish(new A());
+		eventPublisher.publish(new MessageEvent("hello，你好"));
+		eventPublisher.publish(new ChangeEvent(eventPublisher,"sending..."));
+		//测试aop
+//		HelloService bean = context.getBean(HelloService.class);
+//		bean.sayHello("zhangsan");
 //		Cat bean = context.getBean(Cat.class);
 //		System.out.println(bean);
 

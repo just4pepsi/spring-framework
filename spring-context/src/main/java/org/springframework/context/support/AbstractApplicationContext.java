@@ -390,11 +390,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// Decorate event as an ApplicationEvent if necessary
 		ApplicationEvent applicationEvent;
-		if (event instanceof ApplicationEvent applEvent) {
+		if (event instanceof ApplicationEvent applEvent) {	//ApplicationEvent接口下的事件
 			applicationEvent = applEvent;
 			eventType = typeHint;
 		}
-		else {
+		else {	//任意对象作为事件最终被封装到了PayloadApplicationEvent
 			ResolvableType payloadType = null;
 			if (typeHint != null && ApplicationEvent.class.isAssignableFrom(typeHint.toClass())) {
 				eventType = typeHint;
