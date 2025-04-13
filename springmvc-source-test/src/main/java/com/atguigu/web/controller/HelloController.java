@@ -44,7 +44,6 @@ public class HelloController {
 						   Integer i,
 						   RedirectAttributes ra) { //@RequestParam Map<String,Object> params：所有请求参数全封装进来
 		int x = 10 / i;
-		m++;
 		if ("abc".equals(user)) {
 			//非法的用户信息
 			throw new InvalidUserException();

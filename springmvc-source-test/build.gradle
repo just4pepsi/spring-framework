@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     implementation(project(":spring-webmvc"))   //引入springmvc
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:5.0.0'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }

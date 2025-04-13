@@ -4,6 +4,7 @@ import com.atguigu.web.config.SpringConfig;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRegistration;
+import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
@@ -20,9 +21,8 @@ import org.springframework.web.servlet.DispatcherServlet;
  *
  * Servlet3.0是javaEE的Web的规范标准，Tomcat是Servlet3.0规范的一个实现；
  */
-public class AppStarter /** implements WebApplicationInitializer */
-{
-	//	@Override
+public class AppStarter implements WebApplicationInitializer {
+	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		//1、创建ioc容器
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
