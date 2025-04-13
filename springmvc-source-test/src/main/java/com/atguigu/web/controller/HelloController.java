@@ -20,19 +20,22 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class HelloController {
 
-	@Autowired
-	HelloService helloService;
 
 	public HelloController() {
 		System.out.println("HelloController.....");
 	}
 
+	@Autowired
+	HelloService helloService;
+
+
 	/**
 	 * RequestMappingHandlerAdapter:怎么反射执行到这个方法，
-	 *   确定每一个参数的值，以及处理返回值等等
+	 * 确定每一个参数的值，以及处理返回值等等
+	 *
 	 * @param name
 	 * @return ModelAndView、Model、void\String xxxx  请求数据到自定义Object属性的映射需要用到
-	 * 				（WebDataBinder【数据类型转换、绑定错误处理】）Factory
+	 * （WebDataBinder【数据类型转换、绑定错误处理】）Factory
 	 */
 //	@ResponseBody
 	@GetMapping("/hello") // 所有的xxxMapping都是RequestMapping
@@ -44,6 +47,7 @@ public class HelloController {
 						   Integer i,
 						   RedirectAttributes ra) { //@RequestParam Map<String,Object> params：所有请求参数全封装进来
 		int x = 10 / i;
+//		m++;
 		if ("abc".equals(user)) {
 			//非法的用户信息
 			throw new InvalidUserException();
