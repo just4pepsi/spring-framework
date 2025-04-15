@@ -51,12 +51,12 @@ public abstract class AbstractAnnotationConfigDispatcherServletInitializer
 	 * Returns {@code null} if {@link #getRootConfigClasses()} returns {@code null}.
 	 */
 	@Override
-	@Nullable
+	@Nullable	//重写了爷爷类的方法
 	protected WebApplicationContext createRootApplicationContext() {
-		Class<?>[] configClasses = getRootConfigClasses();
+		Class<?>[] configClasses = getRootConfigClasses();	//获取跟根配置
 		if (!ObjectUtils.isEmpty(configClasses)) {
 			AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-			context.register(configClasses);
+			context.register(configClasses);	//创建了一个ioc容器并把配置类注册进来
 			return context;
 		}
 		else {
@@ -72,7 +72,7 @@ public abstract class AbstractAnnotationConfigDispatcherServletInitializer
 	@Override
 	protected WebApplicationContext createServletApplicationContext() {
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-		Class<?>[] configClasses = getServletConfigClasses();
+		Class<?>[] configClasses = getServletConfigClasses();	//获取web应用配置
 		if (!ObjectUtils.isEmpty(configClasses)) {
 			context.register(configClasses);
 		}

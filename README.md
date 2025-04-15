@@ -1,12 +1,12 @@
 # 运行环境
 
-|                       环境                       |      版本       |
-|:----------------------------------------------:|:-------------:|
-|                      JDK                       |      17       |
-|                     Gradle                     |      8.7      |
-|     [springsourse-test](springsourse-test)     |  spring资源测试   |
-|              [spi-demo](spi-demo)              |     spi测试     |
-| [springmvc-source-test](springmvc-source-test) | springmvc资源测试 |
+|                       环境                       |          版本          |
+|:----------------------------------------------:|:--------------------:|
+|                      JDK                       |          17          |
+|                     Gradle                     |         8.7          |
+|     [springsourse-test](springsourse-test)     |      spring资源测试      |
+|              [spi-demo](spi-demo)              |        spi测试         |
+| [springmvc-source-test](springmvc-source-test) | springmvc资源测试(测试失败!) |
 
 ## ------Spring源码解读--------
 # <img src="framework-docs/src/docs/spring-framework.png" width="80" height="80"> Spring Framework [![Build Status](https://github.com/spring-projects/spring-framework/actions/workflows/build-and-deploy-snapshot.yml/badge.svg?branch=main)](https://github.com/spring-projects/spring-framework/actions/workflows/build-and-deploy-snapshot.yml?query=branch%3Amain) [![Revved up by Develocity](https://img.shields.io/badge/Revved%20up%20by-Develocity-06A0CE?logo=Gradle&labelColor=02303A)](https://ge.spring.io/scans?search.rootProjectNames=spring)

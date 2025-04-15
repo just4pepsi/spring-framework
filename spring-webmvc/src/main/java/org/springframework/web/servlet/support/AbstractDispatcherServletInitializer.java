@@ -16,16 +16,8 @@
 
 package org.springframework.web.servlet.support;
 
-import java.util.EnumSet;
-
-import jakarta.servlet.DispatcherType;
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.*;
 import jakarta.servlet.FilterRegistration.Dynamic;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRegistration;
-
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.core.Conventions;
 import org.springframework.lang.Nullable;
@@ -36,6 +28,8 @@ import org.springframework.web.context.AbstractContextLoaderInitializer;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.FrameworkServlet;
+
+import java.util.EnumSet;
 
 /**
  * Base class for {@link org.springframework.web.WebApplicationInitializer}
@@ -80,10 +74,10 @@ public abstract class AbstractDispatcherServletInitializer extends AbstractConte
 		String servletName = getServletName();
 		Assert.state(StringUtils.hasLength(servletName), "getServletName() must not return null or empty");
 
-		WebApplicationContext servletAppContext = createServletApplicationContext();
+		WebApplicationContext servletAppContext = createServletApplicationContext();	//创建servlet容器
 		Assert.state(servletAppContext != null, "createServletApplicationContext() must not return null");
 
-		FrameworkServlet dispatcherServlet = createDispatcherServlet(servletAppContext);
+		FrameworkServlet dispatcherServlet = createDispatcherServlet(servletAppContext);	//创建一个DispatcherServlet
 		Assert.state(dispatcherServlet != null, "createDispatcherServlet(WebApplicationContext) must not return null");
 		dispatcherServlet.setContextInitializers(getServletApplicationContextInitializers());
 
@@ -94,7 +88,7 @@ public abstract class AbstractDispatcherServletInitializer extends AbstractConte
 		}
 
 		registration.setLoadOnStartup(1);
-		registration.addMapping(getServletMappings());
+		registration.addMapping(getServletMappings());	//根据我们指定的DispatcherServlet的映射路径进行注册
 		registration.setAsyncSupported(isAsyncSupported());
 
 		Filter[] filters = getServletFilters();

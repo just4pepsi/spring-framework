@@ -44,7 +44,7 @@ public abstract class AbstractContextLoaderInitializer implements WebApplication
 	protected final Log logger = LogFactory.getLog(getClass());
 
 
-	@Override
+	@Override	//注册ContextLoaderListener
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		registerContextLoaderListener(servletContext);
 	}
@@ -56,9 +56,9 @@ public abstract class AbstractContextLoaderInitializer implements WebApplication
 	 * @param servletContext the servlet context to register the listener against
 	 */
 	protected void registerContextLoaderListener(ServletContext servletContext) {
-		WebApplicationContext rootAppContext = createRootApplicationContext();
+		WebApplicationContext rootAppContext = createRootApplicationContext();	//创建根容器
 		if (rootAppContext != null) {
-			ContextLoaderListener listener = new ContextLoaderListener(rootAppContext, servletContext);
+			ContextLoaderListener listener = new ContextLoaderListener(rootAppContext, servletContext);	//准备一个监听器，保存了根容器
 			listener.setContextInitializers(getRootApplicationContextInitializers());
 			servletContext.addListener(listener);
 		}

@@ -560,19 +560,19 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	 */
 	protected WebApplicationContext initWebApplicationContext() {
 		WebApplicationContext rootContext =
-				WebApplicationContextUtils.getWebApplicationContext(getServletContext());
-		WebApplicationContext wac = null;
+				WebApplicationContextUtils.getWebApplicationContext(getServletContext());	//父容器
+		WebApplicationContext wac = null;	//先会获取之前的WebApplicationContext（构建父子容器）
 
 		if (this.webApplicationContext != null) {
 			// A context instance was injected at construction time -> use it
-			wac = this.webApplicationContext;
+			wac = this.webApplicationContext;	//当前的web-ioc容器
 			if (wac instanceof ConfigurableWebApplicationContext cwac && !cwac.isActive()) {
 				// The context has not yet been refreshed -> provide services such as
 				// setting the parent context, setting the application context id, etc
 				if (cwac.getParent() == null) {
 					// The context instance was injected without an explicit parent -> set
 					// the root application context (if any; may be null) as the parent
-					cwac.setParent(rootContext);
+					cwac.setParent(rootContext);	//父子容器体现
 				}
 				configureAndRefreshWebApplicationContext(cwac);    //配置并且刷新容器
 			}
@@ -697,7 +697,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 
 		postProcessWebApplicationContext(wac);
 		applyInitializers(wac);
-		wac.refresh();
+		wac.refresh();	//子容器初始化
 	}
 
 	/**
