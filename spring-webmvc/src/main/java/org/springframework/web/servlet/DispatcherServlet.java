@@ -295,45 +295,45 @@ public class DispatcherServlet extends FrameworkServlet {
 
 	/** Throw a NoHandlerFoundException if no Handler was found to process this request? *.*/
 	private boolean throwExceptionIfNoHandlerFound = true;
-
+	/*https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet/special-bean-types.html*/
 	/** Perform cleanup of request attributes after include request?. */
 	private boolean cleanupAfterInclude = true;
-
+	// DispatcherServlet中的九大组件、全是接口，我们完全可以自定义实现。Spring默认也准备好了这些组件
 	/** MultipartResolver used by this servlet. */
-	@Nullable
+	@Nullable	//文件上传解析器
 	private MultipartResolver multipartResolver;
 
 	/** LocaleResolver used by this servlet. */
-	@Nullable
+	@Nullable	//国际化解析器
 	private LocaleResolver localeResolver;
 
 	/** ThemeResolver used by this servlet. */
 	@Deprecated
-	@Nullable
+	@Nullable	//主题解析器
 	private ThemeResolver themeResolver;
 
 	/** List of HandlerMappings used by this servlet. */
-	@Nullable
+	@Nullable	//Handler（处理器、能处理请求的人（Controller））映射：【保存的就是所有请求都由谁来处理的映射关系】
 	private List<HandlerMapping> handlerMappings;
 
 	/** List of HandlerAdapters used by this servlet. */
-	@Nullable
+	@Nullable	//Handler适配器：【超级反射工具】
 	private List<HandlerAdapter> handlerAdapters;
 
 	/** List of HandlerExceptionResolvers used by this servlet. */
-	@Nullable
+	@Nullable	//Handler的异常处理器：【用来处理异常的】
 	private List<HandlerExceptionResolver> handlerExceptionResolvers;
 
 	/** RequestToViewNameTranslator used by this servlet. */
-	@Nullable
+	@Nullable	//把请求转成视图名（我们要跳转的页面地址）的翻译器[没啥用]
 	private RequestToViewNameTranslator viewNameTranslator;
 
 	/** FlashMapManager used by this servlet. */
-	@Nullable
+	@Nullable	//闪存管理器
 	private FlashMapManager flashMapManager;
 
 	/** List of ViewResolvers used by this servlet. */
-	@Nullable
+	@Nullable	//视图解析器（我们去哪些页面，怎么过去）
 	private List<ViewResolver> viewResolvers;
 
 	private boolean parseRequestPath;
@@ -494,16 +494,16 @@ public class DispatcherServlet extends FrameworkServlet {
 	 * Initialize the strategy objects that this servlet uses.
 	 * <p>May be overridden in subclasses in order to initialize further strategy objects.
 	 */
-	protected void initStrategies(ApplicationContext context) {
-		initMultipartResolver(context);
-		initLocaleResolver(context);
-		initThemeResolver(context);
-		initHandlerMappings(context);
-		initHandlerAdapters(context);
-		initHandlerExceptionResolvers(context);
-		initRequestToViewNameTranslator(context);
-		initViewResolvers(context);
-		initFlashMapManager(context);
+	protected void initStrategies(ApplicationContext context) {		//初始化策略，九大组件初始化
+		initMultipartResolver(context);	//容器中有就赋值，没有就是null
+		initLocaleResolver(context);	//容器中有就赋值，没有用默认
+		initThemeResolver(context); //容器中有就赋值，没有用默认
+		initHandlerMappings(context); //容器中有就赋值，没有用默认
+		initHandlerAdapters(context); //容器中有就赋值，没有用默认
+		initHandlerExceptionResolvers(context); //容器中有就赋值，没有用默认
+		initRequestToViewNameTranslator(context); //容器中有就赋值，没有用默认
+		initViewResolvers(context); //容器中有就赋值，没有用默认
+		initFlashMapManager(context); //容器中有就赋值，没有用默认
 	}
 
 	/**
@@ -546,7 +546,7 @@ public class DispatcherServlet extends FrameworkServlet {
 			}
 		}
 		catch (NoSuchBeanDefinitionException ex) {
-			// We need to use the default.
+			//没有就获取一个默认的 We need to use the default.
 			this.localeResolver = getDefaultStrategy(context, LocaleResolver.class);
 			if (logger.isTraceEnabled()) {
 				logger.trace("No LocaleResolver '" + LOCALE_RESOLVER_BEAN_NAME +
@@ -867,9 +867,9 @@ public class DispatcherServlet extends FrameworkServlet {
 			try {
 				// Load default strategy implementations from properties file.
 				// This is currently strictly internal and not meant to be customized
-				// by application developers.
+				// by application developers. 去 DispatcherServlet 所在的类路径下找 DispatcherServlet.properties 资源
 				ClassPathResource resource = new ClassPathResource(DEFAULT_STRATEGIES_PATH, DispatcherServlet.class);
-				defaultStrategies = PropertiesLoaderUtils.loadProperties(resource);
+				defaultStrategies = PropertiesLoaderUtils.loadProperties(resource);	//获取资源
 			}
 			catch (IOException ex) {
 				throw new IllegalStateException("Could not load '" + DEFAULT_STRATEGIES_PATH + "': " + ex.getMessage());
@@ -1201,7 +1201,7 @@ public class DispatcherServlet extends FrameworkServlet {
 	 * @see MultipartResolver#resolveMultipart
 	 */
 	protected HttpServletRequest checkMultipart(HttpServletRequest request) throws MultipartException {
-		if (this.multipartResolver != null && this.multipartResolver.isMultipart(request)) {
+		if (this.multipartResolver != null && this.multipartResolver.isMultipart(request)) {	//使用文件上传解析器来判断是否文件上传请求
 			if (WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class) != null) {
 				if (DispatcherType.REQUEST.equals(request.getDispatcherType())) {
 					logger.trace("Request already resolved to MultipartHttpServletRequest, for example, by MultipartFilter");

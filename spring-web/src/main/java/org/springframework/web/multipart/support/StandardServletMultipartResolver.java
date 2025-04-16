@@ -104,7 +104,7 @@ public class StandardServletMultipartResolver implements MultipartResolver {
 	@Override
 	public boolean isMultipart(HttpServletRequest request) {
 		return StringUtils.startsWithIgnoreCase(request.getContentType(),
-				(this.strictServletCompliance ? MediaType.MULTIPART_FORM_DATA_VALUE : "multipart/"));
+				(this.strictServletCompliance ? MediaType.MULTIPART_FORM_DATA_VALUE : "multipart/"));	//所有文件上传请求头Content-Type都已 multipart/ 开始
 	}
 
 	@Override

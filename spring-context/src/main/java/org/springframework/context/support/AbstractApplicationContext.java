@@ -976,7 +976,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		getLifecycleProcessor().onRefresh();
 
 		// 发布事件 Publish the final event.
-		publishEvent(new ContextRefreshedEvent(this));
+		publishEvent(new ContextRefreshedEvent(this));	//发布上下文环境刷新完成的事件
 	}
 
 	/**
