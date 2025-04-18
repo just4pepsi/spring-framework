@@ -39,7 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class SimpleControllerHandlerAdapter implements HandlerAdapter {
 
 	@Override
-	public boolean supports(Object handler) {
+	public boolean supports(Object handler) {	//实现Controller接口的组件
 		return (handler instanceof Controller);
 	}
 

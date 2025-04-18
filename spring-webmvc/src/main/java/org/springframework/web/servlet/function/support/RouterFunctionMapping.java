@@ -16,13 +16,7 @@
 
 package org.springframework.web.servlet.function.support;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import jakarta.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -42,7 +36,12 @@ import org.springframework.web.servlet.handler.RequestMatchResult;
 import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
 
-/**
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**	支持函数式处理以及webflux相关功能
  * {@code HandlerMapping} implementation that supports {@link RouterFunction RouterFunctions}.
  *
  * <p>If no {@link RouterFunction} is provided at
