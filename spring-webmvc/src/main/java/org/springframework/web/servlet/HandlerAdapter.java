@@ -74,7 +74,7 @@ public interface HandlerAdapter {	//适配器+策略
 	 * model data, or {@code null} if the request has been handled directly
 	 * @throws Exception in case of errors
 	 */
-	@Nullable	//适配器
+	@Nullable	//适配器，request、response和handler连接起来进行处理，处理完成得到ModelAndView（页面解析就靠它）
 	ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception;
 
 	/**

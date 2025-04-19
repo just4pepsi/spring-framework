@@ -1068,7 +1068,7 @@ public class DispatcherServlet extends FrameworkServlet {
 						return;
 					}
 				}
-
+				// 所有拦截器的 preHandle 方法执行
 				if (!mappedHandler.applyPreHandle(processedRequest, response)) {
 					return;
 				}
