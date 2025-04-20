@@ -888,7 +888,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	@Nullable
 	protected ModelAndView invokeHandlerMethod(HttpServletRequest request,
 			HttpServletResponse response, HandlerMethod handlerMethod) throws Exception {
-
+		// servlet3.0之后的异步请求
 		WebAsyncManager asyncManager = WebAsyncUtils.getAsyncManager(request);
 		AsyncWebRequest asyncWebRequest = WebAsyncUtils.createAsyncWebRequest(request, response);
 		asyncWebRequest.setTimeout(this.asyncRequestTimeout);
@@ -918,7 +918,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 		invocableMethod.setParameterNameDiscoverer(this.parameterNameDiscoverer);
 		invocableMethod.setMethodValidator(this.methodValidator);
 		//以上都是放了一些核心组件
-		ModelAndViewContainer mavContainer = new ModelAndViewContainer();
+		ModelAndViewContainer mavContainer = new ModelAndViewContainer();	//模型和视图的容器：把处理过程中产生和模型与视图相关数据先放在这里
 		mavContainer.addAllAttributes(RequestContextUtils.getInputFlashMap(request));
 		modelFactory.initModel(webRequest, mavContainer, invocableMethod);
 		mavContainer.setIgnoreDefaultModelOnRedirect(this.ignoreDefaultModelOnRedirect);
@@ -936,12 +936,12 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 			invocableMethod = invocableMethod.wrapConcurrentResult(result);
 		}
 
-		invocableMethod.invokeAndHandle(webRequest, mavContainer);
+		invocableMethod.invokeAndHandle(webRequest, mavContainer);	//真正执行目标方法，执行期间的数据存在mavContainer
 		if (asyncManager.isConcurrentHandlingStarted()) {
 			return null;
 		}
 
-		return getModelAndView(mavContainer, modelFactory, webRequest);
+		return getModelAndView(mavContainer, modelFactory, webRequest);	//提取出 ModelAndView
 	}
 
 	/**
