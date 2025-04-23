@@ -631,7 +631,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 				RequestResponseBodyAdviceChain.getAdviceByType(advice, ResponseBodyAdvice.class).size();
 	}
 
-	/**
+	/** 初始化了一堆的实现 HandlerMethodArgumentResolver 接口的
 	 * Return the list of argument resolvers to use including built-in resolvers
 	 * and custom resolvers provided via {@link #setCustomArgumentResolvers}.
 	 */
@@ -840,7 +840,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 			}
 		}
 		else {
-			// 执行目标方法 No synchronization on session demanded at all...
+			// 执行目标方法-handleInternal的核心 No synchronization on session demanded at all...
 			mav = invokeHandlerMethod(request, response, handlerMethod);
 		}
 
