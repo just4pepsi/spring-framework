@@ -16,13 +16,13 @@
 
 package org.springframework.web.method.support;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.NativeWebRequest;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Handles method return values by delegating to a list of registered
@@ -70,12 +70,12 @@ public class HandlerMethodReturnValueHandlerComposite implements HandlerMethodRe
 	@Override
 	public void handleReturnValue(@Nullable Object returnValue, MethodParameter returnType,
 			ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
-
+		// 先找到可用的返回值处理器
 		HandlerMethodReturnValueHandler handler = selectHandler(returnValue, returnType);
 		if (handler == null) {
 			throw new IllegalArgumentException("Unknown return value type: " + returnType.getParameterType().getName());
 		}
-		handler.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
+		handler.handleReturnValue(returnValue, returnType, mavContainer, webRequest);	//处理返回值
 	}
 
 	@Nullable

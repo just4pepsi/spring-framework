@@ -16,21 +16,9 @@
 
 package org.springframework.web.servlet.mvc.method.annotation;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import org.springframework.core.GenericTypeResolver;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ParameterizedTypeReference;
@@ -39,14 +27,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourceRegion;
 import org.springframework.core.log.LogFormatUtils;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpOutputMessage;
-import org.springframework.http.HttpRange;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.MediaTypeFactory;
-import org.springframework.http.ProblemDetail;
+import org.springframework.http.*;
 import org.springframework.http.converter.GenericHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotWritableException;
@@ -66,6 +47,10 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.util.UrlPathHelper;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.*;
 
 /**
  * Extends {@link AbstractMessageConverterMethodArgumentResolver} with the ability to handle method
@@ -252,7 +237,7 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 			}
 			selectedMediaType = contentType;
 		}
-		else {
+		else {	//内容协商的过程
 			HttpServletRequest request = inputMessage.getServletRequest();
 			List<MediaType> acceptableTypes;
 			try {
@@ -296,7 +281,7 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 			MimeTypeUtils.sortBySpecificity(compatibleMediaTypes);
 
 			for (MediaType mediaType : compatibleMediaTypes) {
-				if (mediaType.isConcrete()) {
+				if (mediaType.isConcrete()) {	//找到适配的内容协商类型
 					selectedMediaType = mediaType;
 					break;
 				}
@@ -312,7 +297,7 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 			}
 		}
 
-		if (selectedMediaType != null) {
+		if (selectedMediaType != null) {	// 利用 HttpMessageConverter 直接读取输入输出流即可
 			selectedMediaType = selectedMediaType.removeQualityValue();
 
 			ResolvableType targetResolvableType = null;

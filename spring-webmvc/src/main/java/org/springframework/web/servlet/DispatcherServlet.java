@@ -1080,8 +1080,8 @@ public class DispatcherServlet extends FrameworkServlet {
 					return;
 				}
 
-				applyDefaultViewName(processedRequest, mv);
-				mappedHandler.applyPostHandle(processedRequest, response, mv);
+				applyDefaultViewName(processedRequest, mv);	//如果没有指定跳转的页面，则默认跳转到当前@RequestMapping注解的名称
+				mappedHandler.applyPostHandle(processedRequest, response, mv);	//执行所以拦截器的 postHandle
 			}
 			catch (Exception ex) {
 				dispatchException = ex;
@@ -1091,7 +1091,7 @@ public class DispatcherServlet extends FrameworkServlet {
 				// making them available for @ExceptionHandler methods and other scenarios.
 				dispatchException = new ServletException("Handler dispatch failed: " + err, err);
 			}
-			processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);
+			processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);	//处理结果
 		}
 		catch (Exception ex) {
 			triggerAfterCompletion(processedRequest, response, mappedHandler, ex);
@@ -1139,21 +1139,21 @@ public class DispatcherServlet extends FrameworkServlet {
 
 		boolean errorView = false;
 
-		if (exception != null) {
+		if (exception != null) {	//如果有异常处理异常
 			if (exception instanceof ModelAndViewDefiningException mavDefiningException) {
 				logger.debug("ModelAndViewDefiningException encountered", exception);
 				mv = mavDefiningException.getModelAndView();
 			}
-			else {
+			else {	//定义无数种异常解析器就会得到不同的异常解析效果
 				Object handler = (mappedHandler != null ? mappedHandler.getHandler() : null);
-				mv = processHandlerException(request, response, handler, exception);
+				mv = processHandlerException(request, response, handler, exception);	//有异常处理异常
 				errorView = (mv != null);
 			}
 		}
 
-		// Did the handler return a view to render?
+		// 动态策略 Did the handler return a view to render? 为什么问号注释：@ResponseBody（提前在解析返回值的时候，就已经把数据解析出去了）
 		if (mv != null && !mv.wasCleared()) {
-			render(mv, request, response);
+			render(mv, request, response);	//渲染ModelAndView，来解析模型和视图
 			if (errorView) {
 				WebUtils.clearErrorRequestAttributes(request);
 			}
@@ -1340,10 +1340,10 @@ public class DispatcherServlet extends FrameworkServlet {
 		}
 
 		// Check registered HandlerExceptionResolvers...
-		ModelAndView exMv = null;
+		ModelAndView exMv = null;	//所以异常解析器继续解析
 		if (this.handlerExceptionResolvers != null) {
 			for (HandlerExceptionResolver resolver : this.handlerExceptionResolvers) {
-				exMv = resolver.resolveException(request, response, handler, ex);
+				exMv = resolver.resolveException(request, response, handler, ex);	//找到适配的异常解析器
 				if (exMv != null) {
 					break;
 				}
@@ -1466,7 +1466,7 @@ public class DispatcherServlet extends FrameworkServlet {
 	@Nullable
 	private View resolveViewNameInternal(String viewName, Locale locale) throws Exception {
 		if (this.viewResolvers != null) {
-			for (ViewResolver viewResolver : this.viewResolvers) {
+			for (ViewResolver viewResolver : this.viewResolvers) {	//找到适配视图解析器解析视图
 				View view = viewResolver.resolveViewName(viewName, locale);
 				if (view != null) {
 					return view;

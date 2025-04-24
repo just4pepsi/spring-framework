@@ -1042,7 +1042,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	@Nullable
 	private ModelAndView getModelAndView(ModelAndViewContainer mavContainer,
 			ModelFactory modelFactory, NativeWebRequest webRequest) throws Exception {
-
+		// modelFactory准备模型数据（请求域数据共享）session里面的数据搬家到request域中
 		modelFactory.updateModel(webRequest, mavContainer);
 		if (mavContainer.isRequestHandled()) {
 			return null;
@@ -1055,7 +1055,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 		if (model instanceof RedirectAttributes redirectAttributes) {
 			Map<String, ?> flashAttributes = redirectAttributes.getFlashAttributes();
 			HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-			if (request != null) {
+			if (request != null) {	//重定向数据的共享，RedirectView，先把数据放到request域中，再把request放入到session
 				RequestContextUtils.getOutputFlashMap(request).putAll(flashAttributes);
 			}
 		}

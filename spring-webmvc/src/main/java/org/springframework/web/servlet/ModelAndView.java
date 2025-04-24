@@ -16,12 +16,12 @@
 
 package org.springframework.web.servlet;
 
-import java.util.Map;
-
 import org.springframework.http.HttpStatusCode;
 import org.springframework.lang.Nullable;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
+
+import java.util.Map;
 
 /**
  * Holder for both Model and View in the web MVC framework.
@@ -48,11 +48,11 @@ public class ModelAndView {
 
 	/** View instance or view name String. */
 	@Nullable
-	private Object view;
+	private Object view;	//跳转的页面
 
 	/** Model Map. */
 	@Nullable
-	private ModelMap model;
+	private ModelMap model;	//给页面的数据
 
 	/** Optional HTTP status for the response. */
 	@Nullable

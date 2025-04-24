@@ -16,13 +16,10 @@
 
 package org.springframework.web.servlet.mvc.support;
 
-import java.io.IOException;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.core.Ordered;
@@ -52,6 +49,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import org.springframework.web.util.WebUtils;
+
+import java.io.IOException;
 
 /**
  * The default implementation of the {@link org.springframework.web.servlet.HandlerExceptionResolver}
@@ -150,7 +149,7 @@ import org.springframework.web.util.WebUtils;
  * @author Juergen Hoeller
  * @since 3.0
  * @see org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
- */
+ */// 默认的异常处理器异常解析器，直接response.sendError，tomcat响应默认错误页
 public class DefaultHandlerExceptionResolver extends AbstractHandlerExceptionResolver {
 
 	/**
@@ -181,7 +180,7 @@ public class DefaultHandlerExceptionResolver extends AbstractHandlerExceptionRes
 			HttpServletRequest request, HttpServletResponse response, @Nullable Object handler, Exception ex) {
 
 		try {
-			// ErrorResponse exceptions that expose HTTP response details
+			// SpringMVC底层的异常 ErrorResponse exceptions that expose HTTP response details
 			if (ex instanceof ErrorResponse errorResponse) {
 				ModelAndView mav = null;
 				if (ex instanceof HttpRequestMethodNotSupportedException theEx) {

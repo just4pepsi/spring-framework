@@ -16,18 +16,13 @@
 
 package org.springframework.web.servlet.handler;
 
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
+
+import java.util.*;
 
 /**
  * {@link org.springframework.web.servlet.HandlerExceptionResolver} implementation
@@ -188,7 +183,7 @@ public class SimpleMappingExceptionResolver extends AbstractHandlerExceptionReso
 		// Expose ModelAndView for chosen error view.
 		String viewName = determineViewName(ex, request);
 		if (viewName != null) {
-			// Apply HTTP status code for error views, if specified.
+			// 出现异常后，处理异常的响应状态码 Apply HTTP status code for error views, if specified.
 			// Only apply it if we're processing a top-level request.
 			Integer statusCode = determineStatusCode(request, viewName);
 			if (statusCode != null) {

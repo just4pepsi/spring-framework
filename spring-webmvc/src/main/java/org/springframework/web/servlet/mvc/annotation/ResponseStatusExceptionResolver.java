@@ -16,11 +16,8 @@
 
 package org.springframework.web.servlet.mvc.annotation;
 
-import java.io.IOException;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -31,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
+
+import java.io.IOException;
 
 /**
  * A {@link org.springframework.web.servlet.HandlerExceptionResolver
@@ -75,7 +74,7 @@ public class ResponseStatusExceptionResolver extends AbstractHandlerExceptionRes
 			if (ex instanceof ResponseStatusException rse) {
 				return resolveResponseStatusException(rse, request, response, handler);
 			}
-
+			// 拿到 @ResponseStatus 注解
 			ResponseStatus status = AnnotatedElementUtils.findMergedAnnotation(ex.getClass(), ResponseStatus.class);
 			if (status != null) {
 				return resolveResponseStatus(status, request, response, handler, ex);
@@ -107,7 +106,7 @@ public class ResponseStatusExceptionResolver extends AbstractHandlerExceptionRes
 	 */
 	protected ModelAndView resolveResponseStatus(ResponseStatus responseStatus, HttpServletRequest request,
 			HttpServletResponse response, @Nullable Object handler, Exception ex) throws Exception {
-
+		// 获取注解指定的响应状态码和错误原因
 		int statusCode = responseStatus.code().value();
 		String reason = responseStatus.reason();
 		return applyStatusAndReason(statusCode, reason, response);
@@ -149,7 +148,7 @@ public class ResponseStatusExceptionResolver extends AbstractHandlerExceptionRes
 			throws IOException {
 
 		if (!StringUtils.hasLength(reason)) {
-			response.sendError(statusCode);
+			response.sendError(statusCode);	//返回默认错误页
 		}
 		else {
 			String resolvedReason = (this.messageSource != null ?

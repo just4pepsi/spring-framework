@@ -16,11 +16,6 @@
 
 package org.springframework.web.servlet.mvc.method.annotation;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.net.URI;
-import java.util.List;
-
 import org.springframework.core.Conventions;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ResolvableType;
@@ -46,6 +41,11 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.util.List;
 
 /**
  * Resolves method arguments annotated with {@code @RequestBody} and handles return
@@ -129,7 +129,7 @@ public class RequestResponseBodyMethodProcessor extends AbstractMessageConverter
 		return parameter.hasParameterAnnotation(RequestBody.class);
 	}
 
-	@Override
+	@Override	//如果返回值的类上标注了 @ResponseBody 或者方法上标注了 @ResponseBody就用这个处理器
 	public boolean supportsReturnType(MethodParameter returnType) {
 		return (AnnotatedElementUtils.hasAnnotation(returnType.getContainingClass(), ResponseBody.class) ||
 				returnType.hasMethodAnnotation(ResponseBody.class));
