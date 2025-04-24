@@ -212,11 +212,11 @@ public class InvocableHandlerMethod extends HandlerMethod {
 			if (args[i] != null) {
 				continue;
 			}
-			if (!this.resolvers.supportsParameter(parameter)) {
+			if (!this.resolvers.supportsParameter(parameter)) {	//查看resolvers是否有支持
 				throw new IllegalStateException(formatArgumentError(parameter, "No suitable resolver"));
 			}
 			try {
-				args[i] = this.resolvers.resolveArgument(parameter, mavContainer, request, this.dataBinderFactory);
+				args[i] = this.resolvers.resolveArgument(parameter, mavContainer, request, this.dataBinderFactory);	//支持的话就开始解析
 			}
 			catch (Exception ex) {
 				// Leave stack trace for later, exception may actually be resolved and handled...
@@ -237,7 +237,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	 */
 	@Nullable
 	protected Object doInvoke(Object... args) throws Exception {
-		Method method = getBridgedMethod();
+		Method method = getBridgedMethod();	//@RequestMapping的方法
 		try {
 			if (KotlinDetector.isKotlinReflectPresent()) {
 				if (KotlinDetector.isSuspendingFunction(method)) {
@@ -247,7 +247,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
 					return KotlinDelegate.invokeFunction(method, getBean(), args);
 				}
 			}
-			return method.invoke(getBean(), args);
+			return method.invoke(getBean(), args);	//通过反射调用,getBean()指@RequestMapping的方法所在类的对象。
 		}
 		catch (IllegalArgumentException ex) {
 			assertTargetBean(method, getBean(), args);
