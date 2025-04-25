@@ -4,6 +4,7 @@
 |:----------------------------------------------:|:--------------------:|
 |                      JDK                       |          17          |
 |                     Gradle                     |         8.7          |
+|                     Tomcat                     |        10.1.9        |
 |     [springsourse-test](springsourse-test)     |      spring资源测试      |
 |              [spi-demo](spi-demo)              |        spi测试         |
 | [springmvc-source-test](springmvc-source-test) | springmvc资源测试(测试失败!) |
