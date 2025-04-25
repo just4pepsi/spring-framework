@@ -16,11 +16,7 @@
 
 package org.springframework.web.servlet.mvc.method.annotation;
 
-import java.util.Collections;
-import java.util.Map;
-
 import jakarta.servlet.ServletRequest;
-
 import org.springframework.core.MethodParameter;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
@@ -37,7 +33,10 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.method.annotation.ModelAttributeMethodProcessor;
 import org.springframework.web.servlet.HandlerMapping;
 
-/**
+import java.util.Collections;
+import java.util.Map;
+
+/** 自定义参数绑定处理器
  * A Servlet-specific {@link ModelAttributeMethodProcessor} that applies data
  * binding through a WebDataBinder of type {@link ServletRequestDataBinder}.
  *
@@ -50,7 +49,7 @@ import org.springframework.web.servlet.HandlerMapping;
  * @since 3.1
  */
 public class ServletModelAttributeMethodProcessor extends ModelAttributeMethodProcessor {
-
+	// supportsParameter 在父类中， resolveArgument 也在父类中
 	/**
 	 * Class constructor.
 	 * @param annotationNotRequired if "true", non-simple method arguments and

@@ -16,13 +16,8 @@
 
 package org.springframework.web.method.annotation;
 
-import java.lang.annotation.Annotation;
-import java.util.Map;
-import java.util.Optional;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ResolvableType;
@@ -43,6 +38,10 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
+
+import java.lang.annotation.Annotation;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Resolve {@code @ModelAttribute} annotated method arguments and handle
@@ -150,7 +149,7 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 			}
 			if (!binder.getBindingResult().hasErrors()) {
 				if (!mavContainer.isBindingDisabled(name)) {
-					bindRequestParameters(binder, webRequest);
+					bindRequestParameters(binder, webRequest);	//web数据绑定器，将请求参数的值绑定到指定的JavaBean里面**
 				}
 				validateIfApplicable(binder, parameter);
 			}
