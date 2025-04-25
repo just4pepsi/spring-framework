@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * 容器中有 WebMvcConfigurer 类型的组件（@Component\@Configuration）就行
  */
 
-@EnableWebMvc //启用SpringMVC功能，修改SpringMVC底层行为就会很方便只需要实现 WebMvcConfigurer 即可
+//@EnableWebMvc //启用SpringMVC功能，修改SpringMVC底层行为就会很方便只需要实现 WebMvcConfigurer 即可
 // 不要这个注解回到以前默认模式，所有组件DispatcherServlet初始化的时候没有，直接用配置文件中指定的默认的组件
 // 没有预留扩展接口，需要我们自己重新替换
 
