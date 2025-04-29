@@ -1094,10 +1094,10 @@ public class DispatcherServlet extends FrameworkServlet {
 			processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);	//处理结果
 		}
 		catch (Exception ex) {
-			triggerAfterCompletion(processedRequest, response, mappedHandler, ex);
+			triggerAfterCompletion(processedRequest, response, mappedHandler, ex);	//触发拦截器的afterCompletion方法
 		}
 		catch (Throwable err) {
-			triggerAfterCompletion(processedRequest, response, mappedHandler,
+			triggerAfterCompletion(processedRequest, response, mappedHandler,	////触发拦截器的afterCompletion方法
 					new ServletException("Handler processing failed: " + err, err));
 		}
 		finally {
