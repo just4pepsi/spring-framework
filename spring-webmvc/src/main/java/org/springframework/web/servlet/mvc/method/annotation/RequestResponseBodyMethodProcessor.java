@@ -63,7 +63,7 @@ import java.util.List;
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
  * @since 3.1
- */
+ *///解析@ResponseBody
 public class RequestResponseBodyMethodProcessor extends AbstractMessageConverterMethodProcessor {
 
 	/**

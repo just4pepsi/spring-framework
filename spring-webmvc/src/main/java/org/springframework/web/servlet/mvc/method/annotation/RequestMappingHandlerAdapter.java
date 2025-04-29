@@ -553,7 +553,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 			List<HandlerMethodArgumentResolver> resolvers = getDefaultInitBinderArgumentResolvers();
 			this.initBinderArgumentResolvers = new HandlerMethodArgumentResolverComposite().addResolvers(resolvers);
 		}
-		if (this.returnValueHandlers == null) {
+		if (this.returnValueHandlers == null) {	//赋值returnValueHandlers
 			List<HandlerMethodReturnValueHandler> handlers = getDefaultReturnValueHandlers();
 			this.returnValueHandlers = new HandlerMethodReturnValueHandlerComposite().addHandlers(handlers);
 		}
@@ -738,7 +738,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 		handlers.add(new DeferredResultMethodReturnValueHandler());
 		handlers.add(new AsyncTaskMethodReturnValueHandler(this.beanFactory));
 
-		// Annotation-based return value types
+		// Annotation-based return value types 这里就是 ReturnValueHandler与 MappingJackson2HttpMessageConverter关联 的关键点
 		handlers.add(new ServletModelAttributeMethodProcessor(false));
 		handlers.add(new RequestResponseBodyMethodProcessor(getMessageConverters(),
 				this.contentNegotiationManager, this.requestResponseBodyAdvice, this.errorResponseInterceptors));
