@@ -16,17 +16,16 @@
 
 package org.springframework.web.servlet.view;
 
-import java.util.Map;
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.WebUtils;
+
+import java.util.Map;
 
 /**
  * Wrapper for a JSP or other resource within the same web application.
@@ -138,7 +137,7 @@ public class InternalResourceView extends AbstractUrlBasedView {
 	protected void renderMergedOutputModel(
 			Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		// Expose the model object as request attributes.
+		// 暴露模型作为请求域属性 Expose the model object as request attributes.
 		exposeModelAsRequestAttributes(model, request);
 
 		// Expose helpers as request attributes, if any.

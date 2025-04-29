@@ -39,7 +39,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  */
 public class ModelMethodProcessor implements HandlerMethodArgumentResolver, HandlerMethodReturnValueHandler {
 
-	@Override
+	@Override	//处理 Model model
 	public boolean supportsParameter(MethodParameter parameter) {
 		return Model.class.isAssignableFrom(parameter.getParameterType());
 	}

@@ -16,8 +16,6 @@
 
 package org.springframework.web.method.annotation;
 
-import java.util.Map;
-
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -26,6 +24,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
+
+import java.util.Map;
 
 /**
  * Resolves {@link Map} method arguments and handles {@link Map} return values.
@@ -40,7 +40,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  */
 public class MapMethodProcessor implements HandlerMethodArgumentResolver, HandlerMethodReturnValueHandler {
 
-	@Override
+	@Override	//处理 Map<String,Object> map
 	public boolean supportsParameter(MethodParameter parameter) {
 		return (Map.class.isAssignableFrom(parameter.getParameterType()) &&
 				parameter.getParameterAnnotations().length == 0);
