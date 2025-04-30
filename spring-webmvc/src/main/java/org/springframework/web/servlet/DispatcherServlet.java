@@ -1073,7 +1073,7 @@ public class DispatcherServlet extends FrameworkServlet {
 					return;
 				}
 
-				// 正在执行目标方法 Actually invoke the handler.
+				// 正在执行目标方法(反射执行目标方法,确定参数值,处理返回值[封装为ModelAndView]) Actually invoke the handler.
 				mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
 
 				if (asyncManager.isConcurrentHandlingStarted()) {
@@ -1385,14 +1385,14 @@ public class DispatcherServlet extends FrameworkServlet {
 	 */
 	protected void render(ModelAndView mv, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// Determine locale for request and apply it to the response.
-		Locale locale =
+		Locale locale =		//默认AcceptHeaderLocaLeResoLver会根据请求头中的Accept-Language字段定浏览器能接受中文|英文 页面
 				(this.localeResolver != null ? this.localeResolver.resolveLocale(request) : request.getLocale());
 		response.setLocale(locale);
 
-		View view;
-		String viewName = mv.getViewName();
+		View view;	//视图
+		String viewName = mv.getViewName();		//适配器执行完目标方法以后返回的ModelAndView-index.jsp
 		if (viewName != null) {
-			// We need to resolve the view name.
+			// 把目标方法的返回值字符串index.jsp转换为View对象 We need to resolve the view name.
 			view = resolveViewName(viewName, mv.getModelInternal(), locale, request);
 			if (view == null) {
 				throw new ServletException("Could not resolve view with name '" + mv.getViewName() +
