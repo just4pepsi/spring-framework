@@ -16,11 +16,6 @@
 
 package org.springframework.web.method;
 
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryUtils;
@@ -38,6 +33,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Encapsulates information about an {@link ControllerAdvice @ControllerAdvice}
@@ -243,7 +243,7 @@ public class ControllerAdviceBean implements Ordered {
 			beanFactory = cac.getBeanFactory();
 		}
 		List<ControllerAdviceBean> adviceBeans = new ArrayList<>();
-		for (String name : BeanFactoryUtils.beanNamesForTypeIncludingAncestors(beanFactory, Object.class)) {
+		for (String name : BeanFactoryUtils.beanNamesForTypeIncludingAncestors(beanFactory, Object.class)) {	//拿到所有组件
 			if (!ScopedProxyUtils.isScopedTarget(name)) {
 				ControllerAdvice controllerAdvice = beanFactory.findAnnotationOnBean(name, ControllerAdvice.class);
 				if (controllerAdvice != null) {

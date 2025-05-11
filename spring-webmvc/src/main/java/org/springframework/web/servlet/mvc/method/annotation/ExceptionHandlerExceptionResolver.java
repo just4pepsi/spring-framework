@@ -16,17 +16,8 @@
 
 package org.springframework.web.servlet.mvc.method.annotation;
 
-import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -52,11 +43,7 @@ import org.springframework.web.method.annotation.ExceptionHandlerMappingInfo;
 import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
 import org.springframework.web.method.annotation.MapMethodProcessor;
 import org.springframework.web.method.annotation.ModelMethodProcessor;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.method.support.HandlerMethodArgumentResolverComposite;
-import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
-import org.springframework.web.method.support.HandlerMethodReturnValueHandlerComposite;
-import org.springframework.web.method.support.ModelAndViewContainer;
+import org.springframework.web.method.support.*;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
@@ -66,6 +53,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.util.DisconnectedClientHelper;
+
+import java.lang.reflect.Proxy;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * An {@link AbstractHandlerMethodExceptionResolver} that resolves exceptions
@@ -283,7 +274,7 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 
 	@Override
 	public void afterPropertiesSet() {
-		// Do this first, it may add ResponseBodyAdvice beans
+		// 初始化@ExceptionHandl增强缓存 Do this first, it may add ResponseBodyAdvice beans
 		initExceptionHandlerAdviceCache();
 		initMessageConverters();
 
@@ -310,7 +301,7 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 		if (getApplicationContext() == null) {
 			return;
 		}
-
+		//找到所有的 ControllerAdviceBean
 		List<ControllerAdviceBean> adviceBeans = ControllerAdviceBean.findAnnotatedBeans(getApplicationContext());
 		for (ControllerAdviceBean adviceBean : adviceBeans) {
 			Class<?> beanType = adviceBean.getBeanType();
@@ -436,14 +427,14 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 	@Nullable
 	protected ModelAndView doResolveHandlerMethodException(HttpServletRequest request,
 			HttpServletResponse response, @Nullable HandlerMethod handlerMethod, Exception exception) {
-
+		//为当前异常找到一个处理方法 @ExceptionHandler注解标注的方法
 		ServletWebRequest webRequest = new ServletWebRequest(request, response);
 		ServletInvocableHandlerMethod exceptionHandlerMethod = getExceptionHandlerMethod(handlerMethod, exception, webRequest);
 
 		if (exceptionHandlerMethod == null) {
 			return null;
 		}
-
+		// 异常解析器里面还是利用了之前的 argumentResolvers 和 returnValueHandlers 扩展了异常解析功能
 		if (this.argumentResolvers != null) {
 			exceptionHandlerMethod.setHandlerMethodArgumentResolvers(this.argumentResolvers);
 		}

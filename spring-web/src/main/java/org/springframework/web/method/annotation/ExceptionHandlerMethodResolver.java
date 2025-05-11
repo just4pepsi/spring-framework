@@ -16,16 +16,6 @@
 
 package org.springframework.web.method.annotation;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.springframework.core.ExceptionDepthComparator;
 import org.springframework.core.MethodIntrospector;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -37,6 +27,9 @@ import org.springframework.util.ConcurrentLruCache;
 import org.springframework.util.MimeType;
 import org.springframework.util.ReflectionUtils.MethodFilter;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * Discovers {@linkplain ExceptionHandler @ExceptionHandler} methods in a given class,
@@ -89,7 +82,7 @@ public class ExceptionHandlerMethodResolver {
 	 * @throws IllegalStateException in case of invalid or ambiguous exception mapping declarations
 	 */
 	public ExceptionHandlerMethodResolver(Class<?> handlerType) {
-		for (Method method : MethodIntrospector.selectMethods(handlerType, EXCEPTION_HANDLER_METHODS)) {
+		for (Method method : MethodIntrospector.selectMethods(handlerType, EXCEPTION_HANDLER_METHODS)) {	//扫描当前ControllerAdvice中所有标注了@ExceptionHandler的方法
 			ExceptionHandlerMappingInfo mappingInfo = detectExceptionMappings(method);
 			for (Class<? extends Throwable> exceptionType : mappingInfo.getExceptionTypes()) {
 				for (MediaType producibleType : mappingInfo.getProducibleTypes()) {

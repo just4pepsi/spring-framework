@@ -16,19 +16,15 @@
 
 package org.springframework.beans.factory;
 
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.springframework.beans.BeansException;
 import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import java.lang.annotation.Annotation;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Convenience methods operating on bean factories, in particular
@@ -219,13 +215,13 @@ public abstract class BeanFactoryUtils {
 	 * @param type the type that beans must match (as a {@code Class})
 	 * @return the array of matching bean names, or an empty array if none
 	 * @see ListableBeanFactory#getBeanNamesForType(Class)
-	 */
+	 *///按照类型搜索所有beanName包括找祖先
 	public static String[] beanNamesForTypeIncludingAncestors(ListableBeanFactory lbf, Class<?> type) {
 		Assert.notNull(lbf, "ListableBeanFactory must not be null");
-		String[] result = lbf.getBeanNamesForType(type);
+		String[] result = lbf.getBeanNamesForType(type);	//当前容器先找类型为 Class<?> type 的
 		if (lbf instanceof HierarchicalBeanFactory hbf) {
 			if (hbf.getParentBeanFactory() instanceof ListableBeanFactory pbf) {
-				String[] parentResult = beanNamesForTypeIncludingAncestors(pbf, type);
+				String[] parentResult = beanNamesForTypeIncludingAncestors(pbf, type);	//拿到父容器，找类型为 Class<?> type 的
 				result = mergeNamesWithParent(result, parentResult, hbf);
 			}
 		}
