@@ -77,7 +77,7 @@ public class ResponseStatusExceptionResolver extends AbstractHandlerExceptionRes
 			// 拿到 @ResponseStatus 注解
 			ResponseStatus status = AnnotatedElementUtils.findMergedAnnotation(ex.getClass(), ResponseStatus.class);
 			if (status != null) {
-				return resolveResponseStatus(status, request, response, handler, ex);
+				return resolveResponseStatus(status, request, response, handler, ex);	// 处理 @ResponseStatus 注解
 			}
 
 			if (ex.getCause() instanceof Exception cause) {

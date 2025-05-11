@@ -16,14 +16,10 @@
 
 package org.springframework.web.servlet.handler;
 
-import java.util.Set;
-import java.util.function.Predicate;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.core.Ordered;
 import org.springframework.core.log.LogFormatUtils;
 import org.springframework.lang.Nullable;
@@ -31,6 +27,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * Abstract base class for {@link HandlerExceptionResolver} implementations.
@@ -166,13 +165,13 @@ public abstract class AbstractHandlerExceptionResolver implements HandlerExcepti
 	 * to the {@link #doResolveException} template method.
 	 */
 	@Override
-	@Nullable
+	@Nullable	//父类抽象类规定的模板
 	public ModelAndView resolveException(
 			HttpServletRequest request, HttpServletResponse response, @Nullable Object handler, Exception ex) {
 
 		if (shouldApplyTo(request, handler)) {
 			prepareResponse(ex, response);
-			ModelAndView result = doResolveException(request, response, handler, ex);
+			ModelAndView result = doResolveException(request, response, handler, ex);	//留给子类进行具体步骤的实现
 			if (result != null) {
 				// Print debug message when warn logger is not enabled.
 				if (logger.isDebugEnabled() && (this.warnLogger == null || !this.warnLogger.isWarnEnabled())) {
@@ -298,7 +297,7 @@ public abstract class AbstractHandlerExceptionResolver implements HandlerExcepti
 	 * @return a corresponding {@code ModelAndView} to forward to,
 	 * or {@code null} for default processing in the resolution chain
 	 */
-	@Nullable
+	@Nullable	//留给子类进行具体步骤的实现
 	protected abstract ModelAndView doResolveException(
 			HttpServletRequest request, HttpServletResponse response, @Nullable Object handler, Exception ex);
 

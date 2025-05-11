@@ -1093,7 +1093,7 @@ public class DispatcherServlet extends FrameworkServlet {
 			}
 			processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);	//处理结果
 		}
-		catch (Exception ex) {
+		catch (Exception ex) {	//下面即使执行完，异常还是继续抛出去
 			triggerAfterCompletion(processedRequest, response, mappedHandler, ex);	//触发拦截器的afterCompletion方法
 		}
 		catch (Throwable err) {
@@ -1371,7 +1371,7 @@ public class DispatcherServlet extends FrameworkServlet {
 			return exMv;
 		}
 
-		throw ex;
+		throw ex;	//如果所以的异常解析器都处理不了就抛出异常
 	}
 
 	/**
@@ -1482,7 +1482,7 @@ public class DispatcherServlet extends FrameworkServlet {
 		if (mappedHandler != null) {
 			mappedHandler.triggerAfterCompletion(request, response, ex);
 		}
-		throw ex;
+		throw ex;	//抛出异常
 	}
 
 	/**
