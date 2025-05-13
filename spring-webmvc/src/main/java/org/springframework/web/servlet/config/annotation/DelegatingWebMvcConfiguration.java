@@ -54,7 +54,7 @@ public class DelegatingWebMvcConfiguration extends WebMvcConfigurationSupport {
 	}
 
 	//所有的功能调用都是 configurers
-	@Override
+	@Override	//访问者模式
 	protected void configurePathMatch(PathMatchConfigurer configurer) {
 		this.configurers.configurePathMatch(configurer);
 	}
