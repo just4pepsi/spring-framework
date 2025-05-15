@@ -1107,21 +1107,21 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	 * to allow other potential {@link ViewResolver} beans to resolve views.
 	 * @since 4.1
 	 */
-	@Bean
+	@Bean	//给容器中放了视图解析器，容器中一开始就有mvcViewResolver这个bean的定义信息
 	public ViewResolver mvcViewResolver(
 			@Qualifier("mvcContentNegotiationManager") ContentNegotiationManager contentNegotiationManager) {
 		ViewResolverRegistry registry =
 				new ViewResolverRegistry(contentNegotiationManager, this.applicationContext);
-		configureViewResolvers(registry);
-
+		configureViewResolvers(registry);	//扩展配置视图
+		// 容器中没有，才会创建一个默认的视图解析器
 		if (registry.getViewResolvers().isEmpty() && this.applicationContext != null) {
 			String[] names = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
 					this.applicationContext, ViewResolver.class, true, false);
-			if (names.length == 1) {
+			if (names.length == 1) {	//容器中只有一个视图解析器，会把InternalResourceViewResolver也放在容器中
 				registry.getViewResolvers().add(new InternalResourceViewResolver());
 			}
 		}
-
+		//扩展配置了，完全按照我们配置的
 		ViewResolverComposite composite = new ViewResolverComposite();
 		composite.setOrder(registry.getOrder());
 		composite.setViewResolvers(registry.getViewResolvers());
@@ -1137,7 +1137,7 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	/**
 	 * Override this method to configure view resolution.
 	 * @see ViewResolverRegistry
-	 */
+	 */	//留给子类模板方法
 	protected void configureViewResolvers(ViewResolverRegistry registry) {
 	}
 
