@@ -16,6 +16,12 @@
 ## ------Spring源码解读--------
 ## Tomcat源码
 1.工程变为Maven工程
+2.使用IDEA单独进入[apache-tomcat-9.0.44-src](apache-tomcat-9.0.44-src)
+3.需要用 `JDK 1.8` 编译
+4.添加jvm参数控制台启动解决乱码
+```text
+-Dfile.encoding=UTF-8 -Dsun.jun.encoding=UTF-8 -Duser.language=en -Duser.region=US
+```
 # <img src="framework-docs/src/docs/spring-framework.png" width="80" height="80"> Spring Framework [![Build Status](https://github.com/spring-projects/spring-framework/actions/workflows/build-and-deploy-snapshot.yml/badge.svg?branch=main)](https://github.com/spring-projects/spring-framework/actions/workflows/build-and-deploy-snapshot.yml?query=branch%3Amain) [![Revved up by Develocity](https://img.shields.io/badge/Revved%20up%20by-Develocity-06A0CE?logo=Gradle&labelColor=02303A)](https://ge.spring.io/scans?search.rootProjectNames=spring)
 
 This is the home of the Spring Framework: the foundation for all [Spring projects](https://spring.io/projects). Collectively the Spring Framework and the family of Spring projects are often referred to simply as "Spring". 
