@@ -32,8 +32,16 @@ import org.springframework.context.annotation.FilterType;
 //@SpringBootConfiguration
 @Configuration
 //@AutoConfigurationPackage  //导入组件  AutoConfigurationPackages.Registrar.class
-////@Import(AutoConfigurationPackages.Registrar.class)
+////@Import(AutoConfigurationPackages.Registrar.class)	//指定我们以后要扫描哪些包下的组件
 //@Import(AutoConfigurationImportSelector.class) //导入组件
+/**	SPI 机制加载
+ *  AutoConfigurationGroup.process ->
+ *			autoConfigurationImportSelector.getAutoConfigurationEntry(annotationMetadata); ->
+ *			getCandidateConfigurations(annotationMetadata, attributes);	 ->
+ *			ImportCandidates.load(this.autoConfigurationAnnotation,getBeanClassLoader());	->
+ *			findUrlsInClasspath(classLoaderToUse, location); ->
+ *			classLoader.getResources(location);
+ */
 @EnableAutoConfiguration
 @ComponentScan(excludeFilters = { @ComponentScan.Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
         @ComponentScan.Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
