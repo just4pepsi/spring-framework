@@ -248,7 +248,7 @@ public final class Bootstrap {
      */
     public void init() throws Exception {
 
-        initClassLoaders();
+        initClassLoaders();	//初始化类加载器
 
         Thread.currentThread().setContextClassLoader(catalinaLoader);
 
@@ -257,7 +257,7 @@ public final class Bootstrap {
         // Load our startup class and call its process() method
         if (log.isDebugEnabled())
             log.debug("Loading startup class");
-        Class<?> startupClass = catalinaLoader.loadClass("org.apache.catalina.startup.Catalina");
+        Class<?> startupClass = catalinaLoader.loadClass("org.apache.catalina.startup.Catalina");	//拿到 Catalina 类
         Object startupInstance = startupClass.getConstructor().newInstance();
         //利用反射创建Catalina对象
         // Set the shared extensions class loader
@@ -455,7 +455,7 @@ public final class Bootstrap {
         }
 
         try {
-            String command = "start";
+            String command = "start";	//解析命令：默认是start
             if (args.length > 0) {
                 command = args[args.length - 1];
             }
@@ -468,7 +468,7 @@ public final class Bootstrap {
                 args[args.length - 1] = "stop";
                 daemon.stop();
             } else if (command.equals("start")) {
-                daemon.setAwait(true);
+                daemon.setAwait(true);	//加载命令行参数信息
                 daemon.load(args); //服务器大组件初始化流程，在此绑定了ServerSocket的端口准备接受数据了
                 daemon.start(); //服务器启动，所有组件也都启动
                 if (null == daemon.getServer()) {

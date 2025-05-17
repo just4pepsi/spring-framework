@@ -1059,7 +1059,7 @@ public class Connector extends LifecycleMBeanBase  {
     @Override  //连接器启动
     protected void startInternal() throws LifecycleException {
 
-        // Validate settings before starting Connector创建对象的无参构造器默认就指定了使用http11protocolHandler
+        // Connector创建对象的无参构造器默认就指定了使用http11protocolHandler; Validate settings before starting
         String id = (protocolHandler != null) ? protocolHandler.getId() : null;
         if (id == null && getPortWithOffset() < 0) {
             throw new LifecycleException(sm.getString(

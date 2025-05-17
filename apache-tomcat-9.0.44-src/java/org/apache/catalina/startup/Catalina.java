@@ -705,7 +705,7 @@ public class Catalina {
         // Before digester - it may be needed
         initNaming();
 
-        // Parse main server.xml
+        // 解析服务器的Serve.xml文件 Parse main server.xml
         parseServerXml(true);
         Server s = getServer();
         if (s == null) {
