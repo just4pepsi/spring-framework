@@ -875,7 +875,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
                     }
                 }
                 if (processor == null) {
-                    processor = getProtocol().createProcessor();
+                    processor = getProtocol().createProcessor();	//Http11Processor
                     register(processor);
                     if (getLog().isDebugEnabled()) {
                         getLog().debug(sm.getString("abstractConnectionHandler.processorCreate", processor));
@@ -890,7 +890,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
 
                 SocketState state = SocketState.CLOSED;
                 do { //处理器处理Socket数据
-                    state = processor.process(wrapper, status);
+                    state = processor.process(wrapper, status);	//processor调用process
 
                     if (state == SocketState.UPGRADING) {
                         // Get the HTTP upgrade handler

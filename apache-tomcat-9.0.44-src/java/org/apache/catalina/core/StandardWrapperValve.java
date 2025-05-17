@@ -132,7 +132,7 @@ final class StandardWrapperValve
         //创建Servlet对象  Allocate a servlet instance to process this request
         try {
             if (!unavailable) {
-                servlet = wrapper.allocate();
+                servlet = wrapper.allocate(); //【创建Servlet对象】
             }
         } catch (UnavailableException e) {
             container.getLogger().error(
@@ -184,7 +184,7 @@ final class StandardWrapperValve
                         SystemLogHandler.startCapture();
                         if (request.isAsyncDispatching()) {
                             request.getAsyncContextInternal().doInternalDispatch();
-                        } else { //执行filter链
+                        } else { //【执行filter链】
                             filterChain.doFilter(request.getRequest(),
                                     response.getResponse());
                         }

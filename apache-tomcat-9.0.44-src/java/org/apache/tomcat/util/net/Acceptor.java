@@ -122,7 +122,7 @@ public class Acceptor<U> implements Runnable {
                     // Configure the socket
                     if (!stopCalled && !endpoint.isPaused()) {
                         // setSocketOptions() will hand the socket off to
-                        // 设置socket an appropriate processor if successful
+                        // 【设置socket】 an appropriate processor if successful
                         if (!endpoint.setSocketOptions(socket)) {
                             endpoint.closeSocket(socket);
                         }

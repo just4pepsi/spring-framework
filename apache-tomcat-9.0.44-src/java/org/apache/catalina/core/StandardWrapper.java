@@ -758,7 +758,7 @@ public class StandardWrapper extends ContainerBase
 
                             // Note: We don't know if the Servlet implements
                             // SingleThreadModel until we have loaded it.
-                            instance = loadServlet();
+                            instance = loadServlet();	//创建servlet对象，初始化servlet对象
                             newInstance = true;
                             if (!singleThreadModel) {
                                 // For non-STM, increment here to prevent a race
@@ -1086,7 +1086,7 @@ public class StandardWrapper extends ContainerBase
                 singleThreadModel = true;
             }
 
-            initServlet(servlet);
+            initServlet(servlet);	//初始化servlet对象
 
             fireContainerEvent("load", this);
 

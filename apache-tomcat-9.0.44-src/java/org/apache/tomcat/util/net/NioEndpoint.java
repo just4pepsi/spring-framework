@@ -520,7 +520,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
             NioSocketWrapper newWrapper = new NioSocketWrapper(channel, this);
             channel.reset(socket, newWrapper);
             connections.put(socket, newWrapper);
-            socketWrapper = newWrapper;
+            socketWrapper = newWrapper;	//以上封装 socketWrapper
 
             // Set socket properties
             // Disable blocking, polling will be used
@@ -532,7 +532,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
             socketWrapper.setReadTimeout(getConnectionTimeout());
             socketWrapper.setWriteTimeout(getConnectionTimeout());
             socketWrapper.setKeepAliveLeft(NioEndpoint.this.getMaxKeepAliveRequests());
-            poller.register(socketWrapper);
+            poller.register(socketWrapper);	//poller 注册事件
             return true;
         } catch (Throwable t) {
             ExceptionUtils.handleThrowable(t);
@@ -759,7 +759,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
          */
         public void register(final NioSocketWrapper socketWrapper) {
             socketWrapper.interestOps(SelectionKey.OP_READ);//this is what OP_REGISTER turns into.
-            PollerEvent event = null;
+            PollerEvent event = null; //创建一个 PollerEvent
             if (eventCache != null) {
                 event = eventCache.pop();
             }
@@ -768,7 +768,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
             } else {
                 event.reset(socketWrapper, OP_REGISTER);
             }
-            addEvent(event);
+            addEvent(event);	//添加到事件队列 SynchronizedQueue
         }
 
         public void cancelledKey(SelectionKey sk, SocketWrapperBase<NioChannel> socketWrapper) {
@@ -876,7 +876,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
                                     if (!socketWrapper.readOperation.process()) {
                                         closeSocket = true;
                                     }
-                                } else if (!processSocket(socketWrapper, SocketEvent.OPEN_READ, true)) {
+                                } else if (!processSocket(socketWrapper, SocketEvent.OPEN_READ, true)) {	//处理socket数据
                                     closeSocket = true;
                                 }
                             }
@@ -1704,7 +1704,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
                     if (event == null) {
                         state = getHandler().process(socketWrapper, SocketEvent.OPEN_READ);
                     } else {
-                        state = getHandler().process(socketWrapper, event);
+                        state = getHandler().process(socketWrapper, event);	//拿到handler进行处理
                     }
                     if (state == SocketState.CLOSED) {
                         poller.cancelledKey(getSelectionKey(), socketWrapper);

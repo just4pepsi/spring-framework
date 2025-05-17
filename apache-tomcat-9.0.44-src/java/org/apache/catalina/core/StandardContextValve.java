@@ -93,7 +93,7 @@ final class StandardContextValve extends ValveBase {
 
         if (request.isAsyncSupported()) {
             request.setAsyncSupported(wrapper.getPipeline().isAsyncSupported());
-        } //继续下一个容器
+        } //继续下一个容器，执行阀门流程
         wrapper.getPipeline().getFirst().invoke(request, response);
     }
 }
