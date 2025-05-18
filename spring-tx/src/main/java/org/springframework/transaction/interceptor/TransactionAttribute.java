@@ -16,10 +16,10 @@
 
 package org.springframework.transaction.interceptor;
 
-import java.util.Collection;
-
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.TransactionDefinition;
+
+import java.util.Collection;
 
 /**
  * This interface adds a {@code rollbackOn} specification to {@link TransactionDefinition}.
@@ -32,7 +32,7 @@ import org.springframework.transaction.TransactionDefinition;
  * @since 16.03.2003
  * @see DefaultTransactionAttribute
  * @see RuleBasedTransactionAttribute
- */
+ */	//事务属性，封装事务信息的
 public interface TransactionAttribute extends TransactionDefinition {
 
 	/**

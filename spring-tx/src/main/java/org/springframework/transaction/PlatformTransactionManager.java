@@ -43,7 +43,7 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.transaction.interceptor.TransactionInterceptor
  * @see org.springframework.transaction.ReactiveTransactionManager
  * @see ConfigurableTransactionManager
- */
+ *///事务的管理器；定义事务的提交和回滚，引入了数据库模块就会放在容器中，定义提交回滚的实现
 public interface PlatformTransactionManager extends TransactionManager {
 
 	/**

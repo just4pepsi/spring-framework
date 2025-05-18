@@ -16,19 +16,14 @@
 
 package org.springframework.transaction.support;
 
-import java.lang.reflect.UndeclaredThrowableException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionException;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.TransactionSystemException;
+import org.springframework.transaction.*;
 import org.springframework.util.Assert;
+
+import java.lang.reflect.UndeclaredThrowableException;
 
 /**
  * Template class that simplifies programmatic transaction demarcation and
@@ -60,7 +55,7 @@ import org.springframework.util.Assert;
  * @see #execute
  * @see #setTransactionManager
  * @see org.springframework.transaction.PlatformTransactionManager
- */
+ *///包含了事务管理器，事务管理器又由他调用，写了一个利用反射执行目标业务的，成功就提交，失败就用事务管理器回滚。定义大逻辑
 @SuppressWarnings("serial")
 public class TransactionTemplate extends DefaultTransactionDefinition
 		implements TransactionOperations, InitializingBean {
@@ -129,27 +124,27 @@ public class TransactionTemplate extends DefaultTransactionDefinition
 	@Nullable
 	public <T> T execute(TransactionCallback<T> action) throws TransactionException {
 		Assert.state(this.transactionManager != null, "No PlatformTransactionManager set");
-
+		//事务模板
 		if (this.transactionManager instanceof CallbackPreferringPlatformTransactionManager cpptm) {
 			return cpptm.execute(this, action);
 		}
 		else {
 			TransactionStatus status = this.transactionManager.getTransaction(this);
 			T result;
-			try {
+			try {	//执行事务方法
 				result = action.doInTransaction(status);
 			}
 			catch (RuntimeException | Error ex) {
 				// Transactional code threw application exception -> rollback
-				rollbackOnException(status, ex);
+				rollbackOnException(status, ex);	//回滚
 				throw ex;
 			}
 			catch (Throwable ex) {
 				// Transactional code threw unexpected exception -> rollback
-				rollbackOnException(status, ex);
+				rollbackOnException(status, ex); //回滚
 				throw new UndeclaredThrowableException(ex, "TransactionCallback threw undeclared checked exception");
 			}
-			this.transactionManager.commit(status);
+			this.transactionManager.commit(status);	//提交
 			return result;
 		}
 	}
