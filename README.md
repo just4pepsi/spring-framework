@@ -15,10 +15,10 @@
 
 ## ------Spring源码解读--------
 ## Tomcat源码
-1.工程变为Maven工程
-2.使用IDEA单独进入[apache-tomcat-9.0.44-src](apache-tomcat-9.0.44-src)
-3.需要用 `JDK 1.8` 编译
-4.添加jvm参数控制台启动解决乱码
+1. 工程变为Maven工程
+2. 使用IDEA单独进入[apache-tomcat-9.0.44-src](apache-tomcat-9.0.44-src)
+3. 需要用 `JDK 1.8` 编译
+4. 添加jvm参数控制台启动解决乱码
 ```text
 -Dfile.encoding=UTF-8 -Dsun.jun.encoding=UTF-8 -Duser.language=en -Duser.region=US
 ```
