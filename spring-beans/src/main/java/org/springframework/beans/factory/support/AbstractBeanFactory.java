@@ -607,7 +607,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 		// 通过后置处理器，可以放回自定义的类型 If we couldn't use the target type, try regular prediction.
 		if (predictedType == null) {
-			predictedType = predictBeanType(beanName, mbd, typesToMatch);
+			predictedType = predictBeanType(beanName, mbd, typesToMatch); //SmartInstantiationAwareBeanPostProcessor.predictBeanType
 			if (predictedType == null) {
 				return false;
 			}

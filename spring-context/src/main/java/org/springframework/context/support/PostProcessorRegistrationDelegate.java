@@ -96,7 +96,7 @@ final class PostProcessorRegistrationDelegate {
 			}// PriorityOrdered 优先级排序
 			sortPostProcessors(currentRegistryProcessors, beanFactory);
 			registryProcessors.addAll(currentRegistryProcessors);
-			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry, beanFactory.getApplicationStartup());
+			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry, beanFactory.getApplicationStartup());	//执行BeanDefinitionRegistryPostProcessor.postProcessBeanDefinitionRegistry【解析配置类此方法执行】
 			currentRegistryProcessors.clear();
 
 			// 从工厂中获取所以实现 Ordered 的 BeanDefinitionRegistryPostProcessors。 Next, invoke the BeanDefinitionRegistryPostProcessors that implement Ordered.
@@ -140,7 +140,7 @@ final class PostProcessorRegistrationDelegate {
 			// Invoke factory processors registered with the context instance.
 			invokeBeanFactoryPostProcessors(beanFactoryPostProcessors, beanFactory);
 		}
-		// 以前在执行 BeanFactoryPostProcessors ，以后执行BeanFactoryPostProcessors。
+		//以前在执行 BeanDefinitionRegistryPostProcessor ,以后来执行 BeanFactoryPostProcessor
 		// Do not initialize FactoryBeans here: We need to leave all regular beans
 		// uninitialized to let the bean factory post-processors apply to them!
 		String[] postProcessorNames =
@@ -322,7 +322,7 @@ final class PostProcessorRegistrationDelegate {
 
 	/**
 	 * Invoke the given BeanDefinitionRegistryPostProcessor beans.
-	 */
+	 *///执行 BeanDefinitionRegistryPostProcessor.postProcessBeanDefinitionRegistry
 	private static void invokeBeanDefinitionRegistryPostProcessors(
 			Collection<? extends BeanDefinitionRegistryPostProcessor> postProcessors, BeanDefinitionRegistry registry, ApplicationStartup applicationStartup) {
 
