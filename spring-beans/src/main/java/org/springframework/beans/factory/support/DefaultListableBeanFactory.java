@@ -1528,7 +1528,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 						if (autowiredBeanNames != null) {
 							autowiredBeanNames.add(dependencyName);
 						}
-						Object dependencyBean = getBean(dependencyName);	//统一调用 getBean 获取组件
+						Object dependencyBean = getBean(dependencyName);	//【自动装配获取组件】 统一调用 getBean 获取组件
 						return resolveInstance(dependencyBean, descriptor, type, dependencyName);
 					}
 				}
